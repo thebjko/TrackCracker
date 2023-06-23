@@ -12,19 +12,19 @@
     </tr>
   </thead>
   <tbody class="table-group-divider">
-    {% for objective in objectives %}
-    <tr hx-get="{% url 'tracks:subtask' objective.pk %}">
-      <th scope="row">{{ objective.pk }}</th>
-      <td>{{ objective.title }}</td>
-      <td>{{ objective.description }}</td>
-      <td>{{ objective.achievement }}</td>
+    {% for task in tasks %}
+    <tr hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">
+      <th scope="row">{{ task.pk }}</th>
+      <td>{{ task.title }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.achievement }}</td>
     </tr>
     <caption>
-      <a href="{% url 'tracks:create' %}">Create objective.</a>
+      <a href="{% url 'tracks:create' %}">Create task.</a>
     </caption>
     {% empty %}
     <caption>
-      <a href="{% url 'tracks:create' %}">There's no objective set. Create one(Click Me).</a>
+      <a href="{% url 'tracks:create' %}">There's no task set. Create one(Click Me).</a>
     </caption>
     {% endfor %}
   </tbody>

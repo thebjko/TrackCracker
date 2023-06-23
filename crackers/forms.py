@@ -1,9 +1,9 @@
 from django import forms
 
-from .models import Objective
+from .models import Task
 
-class ObjectiveForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
     
     class Meta:
-        model = Objective
+        model = Task
         fields = '__all__'
