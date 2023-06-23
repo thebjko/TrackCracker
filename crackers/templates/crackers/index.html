@@ -13,14 +13,19 @@
   </thead>
   <tbody class="table-group-divider">
     {% for objective in objectives %}
-    <tr>
+    <tr hx-get="{% url 'tracks:subtask' objective.pk %}">
       <th scope="row">{{ objective.pk }}</th>
       <td>{{ objective.title }}</td>
       <td>{{ objective.description }}</td>
       <td>{{ objective.achievement }}</td>
     </tr>
+    <caption>
+      <a href="{% url 'tracks:create' %}">Create objective.</a>
+    </caption>
     {% empty %}
-    <caption hx-get="#">There's no objective set. Create one(Click Me).</caption>
+    <caption>
+      <a href="{% url 'tracks:create' %}">There's no objective set. Create one(Click Me).</a>
+    </caption>
     {% endfor %}
   </tbody>
 </table>
