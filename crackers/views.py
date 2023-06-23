@@ -40,5 +40,3 @@ def tasks(request, pk):
         'tasks': tasks,
     }
     return render(request, 'crackers/components/tr.html', context)
-
-
