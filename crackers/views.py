@@ -1,5 +1,11 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Objective
+
+
 def index(request):
-    return render(request, 'crackers/index.html')
+    objectives = Objective.objects.all()
+    context = {
+        'objectives': objectives,
+    }
+    return render(request, 'crackers/index.html', context)
