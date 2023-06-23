@@ -4,7 +4,7 @@ from django.db import models
 class Task(models.Model):
     title = models.CharField('title', max_length=100)
     description = models.TextField('description')
-    supertask = models.ForeignKey('self', verbose_name='supertask', on_delete=models.CASCADE, blank=True, null=True)
+    supertask = models.ForeignKey('self', verbose_name='supertask', on_delete=models.CASCADE, blank=True, null=True, related_name='subtasks')
     
     @property
     def achievement(self):
