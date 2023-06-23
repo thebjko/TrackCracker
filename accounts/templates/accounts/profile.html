@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ user.username }}님의 프로필</h1>
+<p>이름 : {{ user.last_name }}{{ user.first_name }}</p>
+
+<a href="{% url 'accounts:update' %}">
+  <button class="btn btn-sm btn-outline-secondary" type="button">회원정보 수정</button>
+</a>
+{% endblock content %}
