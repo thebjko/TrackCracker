@@ -1,4 +1,5 @@
 # Track Cracker
+Divide and Conquer your Objectives.
 
 ## Motivation
 학습 계획과 달성률을 쉽게 작성/기록 및 보여주는 앱을 찾기 쉽지 않다.  
