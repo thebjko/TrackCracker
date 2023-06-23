@@ -11,22 +11,8 @@
       <th scope="col">Achievement</th>
     </tr>
   </thead>
-  <tbody class="table-group-divider">
-    {% for task in tasks %}
-    <tr hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">
-      <th scope="row">{{ task.pk }}</th>
-      <td>{{ task.title }}</td>
-      <td>{{ task.description }}</td>
-      <td>{{ task.achievement }}</td>
-    </tr>
-    <caption>
-      <a href="{% url 'tracks:create' %}">Create task.</a>
-    </caption>
-    {% empty %}
-    <caption>
-      <a href="{% url 'tracks:create' %}">There's no task set. Create one(Click Me).</a>
-    </caption>
-    {% endfor %}
+  <tbody class="table-group-divider" id="task-list">
+    {% include 'crackers/components/tr.html' %}
   </tbody>
 </table>
 {% endblock content %}

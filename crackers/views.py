@@ -26,10 +26,19 @@ def create(request):
     }
     return render(request, 'crackers/objectives/create.html', context)
 
-def redirect_to_tasks(request, pk):
-    '''for hx-get to redirect'''
-    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
+# def redirect_to_tasks(request, pk):
+#     '''
+#     for hx-get to redirect
+#     tr 태그에 링크를 걸 수 있어서 사용
+#     '''
+#     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
 
 
 def tasks(request, pk):
-    return render(request,)
+    tasks = Task.objects.filter(supertask=pk)   # pk만 넘겨줘야 하나 아니면 객체를 넘겨줘야 하나?
+    context = {
+        'tasks': tasks,
+    }
+    return render(request, 'crackers/components/tr.html', context)
+
+
