@@ -50,4 +50,9 @@ def detail(request, pk):
     context = {
         'task': get_object_or_404(Task, pk=pk)
     }
-    return render(request, 'crackers/components/detail.html', context)
+    trigger = {
+        'change-offcanvas-title': {
+            'title': context['task'].title
+        }
+    }
+    return render(request, 'crackers/components/detail.html', context, trigger=trigger)
