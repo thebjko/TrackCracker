@@ -1,4 +1,5 @@
 <div>{{ task.description }}</div>
+<a href="{% url 'tracks:tasks' task.pk %}">See in Table</a>
 <ul>
   {% for subtask in task.subtasks.all %}
   <li><span>{{ subtask.title }}</span><span>{{ subtask.achievement }}</span></li>
