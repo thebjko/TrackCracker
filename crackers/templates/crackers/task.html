@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Objectives</h1>
-<p>Click Objective Title to See Subtask or Create One.</p>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -14,8 +12,14 @@
   </thead>
   <tbody>
     {% for task in tasks %}
+    {% if forloop.first %}
+    <h1 class="d-inline-block">Objective : {{ task.supertask.title }}</h1>
+    <span># {{ task.supertask.type }}</span><br>
+    <span>{{ task.supertask.achievement }}% Achieved</span>
+    {% endif %}
     {% include 'crackers/components/table_row.html' %}
     {% endfor %}
   </tbody>
 </table>
+<a href="{% url 'tracks:create' current_task_pk %}">Create Subtasks</a>
 {% endblock content %}
