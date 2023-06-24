@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if supertask %}
+<form hx-post="{% url 'tracks:create' supertask %}" method="post">
+{% else %}
 <form hx-post="{% url 'tracks:create' %}" method="post">
+{% endif %}
   {{ form.as_div }}
   <button type="submit">CREATE</button>
 </form>
