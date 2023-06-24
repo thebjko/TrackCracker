@@ -36,8 +36,23 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
 0. 테이블 밑에 Create Subtask
 
 ### 사이드바(팝업)
-1. Description(마크다운)
-2. Subtask 한눈에 보기(title, 달성률/완료여부)
-3. Create Subtask
-4. 선택한 Task Update, Delete
+1. Description ✅
+    - (마크다운)
+2. Subtask 한눈에 보기(title, 달성률/완료여부) → 리스트로 일단 구현
+3. Create Subtask ✅
+4. 선택한 Task Update, Delete → 버튼 구현됨.
 
+#### 구현할 기능들
+- Update
+- Delete
+- 달성률 계산해 보여주기
+- 완료여부
+    - 달성률 100% 또는 체크되었을 때 완료가 됨.
+- 마크다운
+- 브레드크럼 → 캐시? 세션?
+- 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246))
+- 시간 측정해 데이터베이스에 기록하기 (`DurationField`?)
+- 타입별 필터링하기.
+- 타입별 평균 완료 시간 측정하기 → 같은 타입을 가진 다른 태스크에 추정 완료 시간 보여주기
+- 완료되지 않은 목록만 볼 수 있게 필터링하기
+- 완료한 목록 보기
