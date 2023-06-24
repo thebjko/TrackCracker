@@ -1,0 +1,10 @@
+<div>{{ task.title }}</div>
+<div>{{ task.description }}</div>
+<ul>
+  {% for subtask in task.subtasks.all %}
+  <li><span>{{ subtask.title }}</span><span>{{ subtask.achievement }}</span></li>
+  {% endfor %}
+</ul>
+<a href="{% url 'tracks:create' task.pk %}">Create Subtask</a>
+<a href="#">[Update Current Task]</a>
+<a href="#">[Delete Current Task]</a>

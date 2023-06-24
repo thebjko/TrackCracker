@@ -44,3 +44,10 @@ def create(request, pk=None):
 
 def redirect_to_create(request, pk):
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create', kwargs={'pk': pk}))
+
+
+def detail(request, pk):
+    context = {
+        'task': get_object_or_404(Task, pk=pk)
+    }
+    return render(request, 'crackers/components/detail.html', context)
