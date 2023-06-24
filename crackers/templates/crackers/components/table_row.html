@@ -4,7 +4,7 @@
   <td class="pointer" hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">{{ task.title }}</td>
   <td>{{ task.achievement }}</td>
   {% else %}
-  <td class="pointer" hx-get="redirect-to-create-page" hx-confirm="There's no subtask related. Create one now.">{{ task.title }}</td>
+  <td class="pointer" hx-get="redirect-to-create-page" hx-confirm="There's no related subtask. Create one now.">{{ task.title }}</td>
   <td>{{ task.completed }}(체크박스)</td>
   {% endif %}
   <td>{{ task.duration }}</td>
