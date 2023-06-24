@@ -26,10 +26,10 @@ def create(request, pk=None):
     if request.method == 'POST':
         form  = TaskForm(data=request.POST)
         if form.is_valid():
-            if pk is None:
+            if pk is None:   # Objective를 생성하는 경우
                 form.save()
                 return redirect('tracks:index')
-            task = form.save(commit=False)
+            task = form.save(commit=False)   # Subtask를 생성하는 경우
             task.supertask = get_object_or_404(Task, pk=pk)
             task.save()
             return redirect('tracks:tasks', pk)
@@ -39,7 +39,7 @@ def create(request, pk=None):
         'form': form,
         'supertask': pk,
     }
-    return render(request, 'crackers/objectives/create.html', context)
+    return render(request, 'crackers/create.html', context)
 
 
 def redirect_to_tasks(request, pk):
