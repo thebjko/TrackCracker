@@ -2,8 +2,30 @@
 
 {% block content %}
 <h1>Objectives</h1>
-<p>Click task title to see its subtasks.</p>
-
-{% include 'crackers/components/tasks.html' %}
-
+<p>Click Objective Title to See Subtask or Create One.</p>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Objective</th>
+      <th scope="col">Achievement / Completed</th>
+      <th scope="col">Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr>
+      <th scope="row">{{ task.pk }}</th>
+      {% if task.subtasks.exists %}
+      <td class="pointer" hx-get="redirect-to-subtask-list">{{ task.title }}</td>
+      <td>{{ task.achievement }}</td>
+      {% else %}
+      <td class="pointer" hx-get="redirect-to-create-page" hx-confirm="There's no subtask related. Create one now.">{{ task.title }}</td>
+      <td>{{ task.completed }}(체크박스)</td>
+      {% endif %}
+      <td>{{ task.duration }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock content %}
