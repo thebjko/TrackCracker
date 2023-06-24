@@ -3,10 +3,10 @@
   {% if task.subtasks.exists %}
   {% comment %} <td class="pointer" hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">{{ task.title }}</td> {% endcomment %}
   <td><a href="{% url 'tracks:tasks' task.pk %}">{{ task.title }}</a></td>
-  <td>{{ task.achievement }}</td>
   {% else %}
   <td class="pointer" hx-get="{% url 'tracks:redirect_to_create' task.pk %}" hx-confirm="There's no related subtask. Create one now.">{{ task.title }}</td>
-  <td>{{ task.completed }}(체크박스)</td>
   {% endif %}
+  <td>{{ task.achievement }}</td>
+  <td>{{ task.completed }}(체크박스 또는 hx)</td>
   <td>{{ task.duration }}</td>
 </tr>
