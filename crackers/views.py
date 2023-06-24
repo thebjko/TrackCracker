@@ -17,8 +17,9 @@ def tasks(request, pk):
     tasks = Task.objects.filter(supertask=pk)   # pk만 넘겨도 된다.
     context = {
         'tasks': tasks,
+        'current_task_pk': pk,
     }
-    return render(request, 'crackers/components/tasks.html', context)
+    return render(request, 'crackers/task.html', context)
 
 
 def create(request, pk=None):
@@ -41,6 +42,5 @@ def create(request, pk=None):
     return render(request, 'crackers/objectives/create.html', context)
 
 
-
-# def redirect_to_create(request, pk):
-#     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create', kwargs={'pk': pk}))
+def redirect_to_tasks(request, pk):
+    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
