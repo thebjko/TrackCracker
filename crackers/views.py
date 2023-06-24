@@ -42,5 +42,5 @@ def create(request, pk=None):
     return render(request, 'crackers/create.html', context)
 
 
-def redirect_to_tasks(request, pk):
-    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
+def redirect_to_create(request, pk):
+    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create', kwargs={'pk': pk}))
