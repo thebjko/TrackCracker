@@ -1,0 +1,14 @@
+<ul>
+  {% for task in tasks %}
+  <li id="objective-item-{{ task.pk }}">
+    <span class="pointer" hx-get="{% url 'tracks:tasks' task.pk %}" hx-target="#objective-item-{{ task.pk }}" hx-swap="afterend">{{ task.title }}</span>
+    {% if task.subtasks.exists %}
+    <span>{{ task.achievement }}</span>
+    {% else %}
+    <span>시간 측정하기(아직 미구현)</span>
+    <span>완료 상태로 표시하기</span>
+    {% endif %}
+    <span>Create subtask</span>
+  </li>
+{% endfor %}
+</ul>

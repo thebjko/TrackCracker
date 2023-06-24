@@ -2,17 +2,8 @@
 
 {% block content %}
 <h1>Objectives</h1>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Objective</th>
-      <th scope="col">Description</th>
-      <th scope="col">Achievement</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider" id="task-list">
-    {% include 'crackers/components/tr.html' %}
-  </tbody>
-</table>
+<p>Click task title to see its subtasks.</p>
+
+{% include 'crackers/components/tasks.html' %}
+
 {% endblock content %}

@@ -1,10 +1,14 @@
 from django.db import models
 
-# Create your models here.
 class Task(models.Model):
     title = models.CharField('title', max_length=100)
-    description = models.TextField('description')
-    supertask = models.ForeignKey('self', verbose_name='supertask', on_delete=models.CASCADE, blank=True, null=True)
+    description = models.TextField('description', null=True, blank=True)
+    supertask = models.ForeignKey('self', verbose_name='supertask', on_delete=models.CASCADE, blank=True, null=True, related_name='subtasks')
+    type = models.CharField('type', max_length=50, null=True, blank=True, default=None)
+    completed = models.BooleanField('completed', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    duration = models.DurationField('duration', null=True, blank=True)
     
     @property
     def achievement(self):
