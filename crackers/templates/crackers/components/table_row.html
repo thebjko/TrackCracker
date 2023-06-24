@@ -1,10 +1,8 @@
 <tr>
   <th scope="row">{{ task.pk }}</th>
   {% if task.subtasks.exists %}
-  {% comment %} <td class="pointer" hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">{{ task.title }}</td> {% endcomment %}
-  {% comment %} <td><a href="{% url 'tracks:tasks' task.pk %}">{{ task.title }}</a></td> {% endcomment %}
   <td>
-    <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
+    <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
   </td>
   {% else %}
   <td class="pointer" hx-get="{% url 'tracks:redirect_to_create' task.pk %}" hx-confirm="There's no related subtask. Create one now.">{{ task.title }}</td>
