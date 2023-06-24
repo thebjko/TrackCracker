@@ -1,11 +1,12 @@
 <tr>
   <th scope="row">{{ task.pk }}</th>
   {% if task.subtasks.exists %}
-  <td class="pointer" hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">{{ task.title }}</td>
-  <td>{{ task.achievement }}</td>
+  {% comment %} <td class="pointer" hx-get="{% url 'tracks:redirect_to_tasks' task.pk %}">{{ task.title }}</td> {% endcomment %}
+  <td><a href="{% url 'tracks:tasks' task.pk %}">{{ task.title }}</a></td>
   {% else %}
-  <td class="pointer" hx-get="redirect-to-create-page" hx-confirm="There's no subtask related. Create one now.">{{ task.title }}</td>
-  <td>{{ task.completed }}(체크박스)</td>
+  <td class="pointer" hx-get="{% url 'tracks:redirect_to_create' task.pk %}" hx-confirm="There's no related subtask. Create one now.">{{ task.title }}</td>
   {% endif %}
+  <td>{{ task.achievement }}</td>
+  <td>{{ task.completed }}(체크박스 또는 hx)</td>
   <td>{{ task.duration }}</td>
 </tr>
