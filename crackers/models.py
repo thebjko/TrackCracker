@@ -9,6 +9,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.DurationField('duration', null=True, blank=True)
+    amount = models.IntegerField('amount')
     
     @property
     def achievement(self):

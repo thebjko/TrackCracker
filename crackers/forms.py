@@ -9,4 +9,6 @@ class TaskForm(forms.ModelForm):
         fields = (
             'title',
             'description',
+            'type',
+            'amount',
         )

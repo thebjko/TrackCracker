@@ -28,11 +28,11 @@ def create(request, pk=None):
         if form.is_valid():
             if pk is None:
                 form.save()
-            else:
-                task = form.save(commit=False)
-                task.supertask = get_object_or_404(Task, pk=pk)
-                task.save()
-            return redirect('tracks:index')
+                return redirect('tracks:index')
+            task = form.save(commit=False)
+            task.supertask = get_object_or_404(Task, pk=pk)
+            task.save()
+            return redirect('tracks:tasks', pk)
     else:
         form = TaskForm()
     context = {
