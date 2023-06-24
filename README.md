@@ -50,7 +50,7 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
     - 달성률 100% 또는 체크되었을 때 완료가 됨.
 - 마크다운
 - 브레드크럼 → 캐시? 세션?
-- 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246))
+- 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246)) + 1초마다 쿠키에 기록
 - 시간 측정해 데이터베이스에 기록하기 (`DurationField`?)
 - 타입별 필터링하기.
 - 타입별 평균 완료 시간 측정하기 → 같은 타입을 가진 다른 태스크에 추정 완료 시간 보여주기
