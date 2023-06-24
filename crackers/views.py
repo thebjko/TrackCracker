@@ -17,7 +17,7 @@ def tasks(request, pk):
     tasks = Task.objects.filter(supertask=pk)   # pk만 넘겨도 된다.
     context = {
         'tasks': tasks,
-        'current_task_pk': pk,
+        'supertask': get_object_or_404(Task, pk=pk),
     }
     return render(request, 'crackers/task.html', context)
 
