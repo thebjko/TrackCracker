@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/create/', views.create, name='create'),
     path('<int:pk>/redirect/', views.redirect_to_create, name='redirect_to_create'),
     path('<int:pk>/detail/', views.detail, name='detail'),
+    path('<int:pk>/update/', views.update, name='update'),
 ]

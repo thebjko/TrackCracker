@@ -1,3 +1,4 @@
+from django.http import QueryDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
@@ -56,3 +57,19 @@ def detail(request, pk):
         }
     }
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
+
+
+def update(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == 'PUT':
+        data = QueryDict(request.body).dict()
+        form = TaskForm(data=data, instance=task)
+        if form.is_valid():
+            form.save()
+            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
+    else:
+        form = TaskForm(instance=task)
+    context = {
+        'form': form,
+    }
+    return render(request, 'crackers/update.html', context)
