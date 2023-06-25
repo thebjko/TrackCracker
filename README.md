@@ -44,7 +44,7 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
 
 #### 구현할 기능들
 - Update ✅
-- Delete ✅
+- Delete
 - 달성률 계산해 보여주기
     - 달성률을 어떻게 측정할 것인가?
         - Create → 이 태스크가 Supertask에서 차지하는 비중 기록하도록 하기.
