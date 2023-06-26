@@ -45,6 +45,10 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
 #### 구현할 기능들
 - Update ✅
 - Delete ✅
+- Navbar 구현
+    - Objective를 선택했을 때 Subtask로 링크를 타고 들어가더라도 Navbar에 Objective 고정하기.
+- Subtask 클릭시 해당 Task의 Supertask가 맨 위에 뜨게 하기.
+    - ex) Objective : 목표1\nTask : 태스크1\n 이후 서브태스크 목록
 - 달성률 계산해 보여주기
     - 달성률을 어떻게 측정할 것인가?
         - Create → 이 태스크가 Supertask에서 차지하는 비중 기록하도록 하기.
@@ -53,16 +57,12 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
             - ex) 350페이지가 Total로 기록된 책에서 1챕터가 35까지이고 2챕터가 50까지라면 2챕터에 50을 기록해 (50-35)/350으로 비중을 계산하도록 구현하기.
 - 완료여부
     - 달성률 100% 또는 체크되었을 때 완료가 됨.
-- ~~마크다운~~
 - 브레드크럼 → 캐시? 세션?
-- 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246)) + 1초마다 쿠키에 기록
-- 시간 측정해 데이터베이스에 기록하기 (`DurationField`?)
+- 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246)) + 1분마다 쿠키에 기록
+    - 데이터베이스에 기록하기 (`DurationField`?)
 - 타입별 필터링하기.
 - 타입별 평균 완료 시간 측정하기 → 같은 타입을 가진 다른 태스크에 추정 완료 시간 보여주기 (책, Youtube, Udemy 등)
 - 완료되지 않은 목록만 볼 수 있게 필터링하기
 - 완료한 목록 보기
 - Offcanvas 사이즈 넓게 하기
-- Navbar 구현
-    - Objective를 선택했을 때 Subtask로 링크를 타고 들어가더라도 Navbar에 Objective 고정하기.
-- Subtask 클릭시 해당 Task의 Supertask가 맨 위에 뜨게 하기.
-    - ex) Objective : 목표1\nTask : 태스크1\n 이후 서브태스크 목록
+- ~~마크다운~~
