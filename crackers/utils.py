@@ -13,8 +13,11 @@ class HTTPResponseHXRedirect(HttpResponseRedirect):
     https://stackoverflow.com/questions/65569673/htmx-hx-target-swap-html-vs-full-page-reload
     '''
     def __init__(self, *args, **kwargs):
+        trigger = kwargs.pop('trigger', None)
         super().__init__(*args, **kwargs)
         self['HX-Redirect'] = self['Location']
+        self.headers['HX-Trigger-After-Settle'] = json.dumps(trigger)
+
     status_code = 200
 
 
