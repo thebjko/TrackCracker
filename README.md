@@ -50,12 +50,12 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
 - Subtask 클릭시 해당 Task의 Supertask가 맨 위에 뜨게
     - ex) Objective : 목표1\nTask : 태스크1\n 이후 서브태스크 목록
 - 달성률 계산해 보여주기
-    - 달성률을 어떻게 측정할 것인가?
+    - 달성률 측정
         - CREATE시 입력받아야 할 정보
             1. 이 Task가 Supertask에서 차지하는 비중 in %
             2. 타입 (ex. 책, Udemy, Youtube 등)
             3. 절대량 (ex. 350pg, 3\*3600+24\*60+42 등. 또는 60진법?) → 예상 소요시간 계산을 위해 사용(Optional)  
-            > 절대량은 예상 소요시간 측정을 위해 사용된다. (절대량과 비중, 그리고 실제 측정된 시간을 토대로 사용한다.)  
+            > 절대량은 예상 소요시간 측정을 위해 사용된다. (절대량, 비중, 그리고 실제 측정된 시간을 토대로 사용한다.)  
             > Objective의 총량은 임의로 10,000이라 하고, 입력받지 않는다.  
             > 절대량이 입력되지 않은 경우, Supartask에서 차지하는 비중을 토대로 계산해 소요시간 예측에 사용한다.  
         - Accumulate 기능 구현
@@ -64,6 +64,10 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
     - 완료여부 입력받기:
         - 완료 버튼 만들기(체크표시)
         - 달성률 100%(Subtask가 있는 경우) 또는 체크되었을 때(Subtask가 없는 경우) 완료
+    - 달성률 계산
+        - 절대량이 없는 작업의 경우 계산 보류.
+        - 절대량이 있는 작업의 경우 (절대량/실제 소요시간)의 평균을 구하고 역수를 취한뒤 예상 소요시간을 구할 절대량을 곱한다.
+        - 가장 작은 단위 Task의 경우에만 예상 시간을 출력하도록 한다. to prevent users from being intimidated by the time that a supertask or objective might take.
 - 브레드크럼 → 캐시? 세션?
 - 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246)) + 1분마다 쿠키에 기록
     - 데이터베이스에 기록 (`DurationField`?)
