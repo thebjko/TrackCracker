@@ -5,6 +5,9 @@
   <li><span>{{ subtask.title }}</span><span>{{ subtask.achievement }}</span></li>
   {% endfor %}
 </ul>
-<a href="{% url 'tracks:tasks' task.pk %}">See in Table</a>
-<a href="{% url 'tracks:create' task.pk %}">Create Subtask</a>
-<a href="{% url 'tracks:update' task.pk %}">Update Current Task</a>
+<a class="btn btn-link" href="{% url 'tracks:tasks' task.pk %}">See in Table</a>
+<a class="btn btn-link" href="{% url 'tracks:create' task.pk %}">Create Subtask</a>
+<a class="btn btn-link" href="{% url 'tracks:update' task.pk %}">Update Task</a>
+<a class="btn btn-link"
+  hx-delete="{% url 'tracks:delete' task.pk %}"
+  hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Task</a>

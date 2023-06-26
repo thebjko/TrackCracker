@@ -5,20 +5,24 @@
     <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
   </td>
   {% else %}
-  <td class="pointer" hx-get="{% url 'tracks:redirect_to_create' task.pk %}" hx-confirm="There's no related subtask. Create one now."><span class="mx-2">{{ task.title }}</span></td>
+  <td>
+    <button class="btn btn-sm" hx-get="{% url 'trakcs:create' task.pk %}" hx-confirm="There's no related subtask. Create one now.">
+      {{ task.title }}
+    </button>
+  </td>
   {% endif %}
-  <td>{{ task.achievement }}</td>
-  <td>{{ task.completed }}(체크박스 또는 hx)</td>
-  <td>{{ task.duration }}</td>
+  <td><p class="btn btn-sm">{{ task.achievement }}</p></td>
+  <td><p class="btn btn-sm">{{ task.completed }}(체크박스 또는 hx)</p></td>
+  <td><p class="btn btn-sm">{{ task.duration }}</p></td>
   <td>
     {% if task.supertask is None %}
-    <a class="btn btn-primary"
+    <a class="btn btn-primary btn-sm"
       hx-delete="{% url 'tracks:delete' task.pk %}"
-      hx-confirm="Are you sure to delete this objective? This action deletes all related subtasks.">Delete this objective</a>
+      hx-confirm="Are you sure to delete this objective? This will delete all related subtasks.">Delete Objective</a>
     {% else %}
-    <a class="btn btn-primary"
+    <a class="btn btn-primary btn-sm"
       hx-delete="{% url 'tracks:delete' task.pk %}"
-      hx-confirm="Are you sure to delete this task? This action deletes all related subtasks.">Delete This Task</a>
+      hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Task</a>
     {% endif %}
   </td>
 </tr>
