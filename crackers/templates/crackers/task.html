@@ -22,12 +22,5 @@
   </tbody>
 </table>
 <a href="{% url 'tracks:create' supertask.pk %}">Create Subtask</a>
-<a href="{% url 'tracks:update' supertask.pk %}">
-  {% if supertask.supertask.exists %}
-  Update Task
-  {% else %}
-  Update Objective
-  {% endif %}
-</a>
-
+<a href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
 {% endblock content %}
