@@ -10,4 +10,15 @@
   <td>{{ task.achievement }}</td>
   <td>{{ task.completed }}(체크박스 또는 hx)</td>
   <td>{{ task.duration }}</td>
+  <td>
+    {% if task.supertask is None %}
+    <a class="btn btn-primary"
+      hx-delete="{% url 'tracks:delete' task.pk %}"
+      hx-confirm="Are you sure to delete this objective? This action deletes all related subtasks.">Delete this objective</a>
+    {% else %}
+    <a class="btn btn-primary"
+      hx-delete="{% url 'tracks:delete' task.pk %}"
+      hx-confirm="Are you sure to delete this task? This action deletes all related subtasks.">Delete This Task</a>
+    {% endif %}
+  </td>
 </tr>

@@ -1,5 +1,5 @@
 from django.http import QueryDict
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 
 from .forms import TaskForm
@@ -29,11 +29,11 @@ def create(request, pk=None):
         if form.is_valid():
             if pk is None:   # Objective를 생성하는 경우
                 form.save()
-                return redirect('tracks:index')
+                return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
             task = form.save(commit=False)   # Subtask를 생성하는 경우
             task.supertask = get_object_or_404(Task, pk=pk)
             task.save()
-            return redirect('tracks:tasks', pk)
+            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
     else:
         form = TaskForm()
     context = {
@@ -73,3 +73,16 @@ def update(request, pk):
         'form': form,
     }
     return render(request, 'crackers/update.html', context)
+
+
+def delete(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    supertask = task.supertask
+    task.delete()
+    if supertask is None:
+        redirect_to = reverse_lazy('tracks:index')
+    else:
+        redirect_to = reverse_lazy('tracks:tasks', kwargs={'pk': task.supertask.pk})
+    # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다.
+    # return HttpResponse(trigger={'test': dict()})
+    return HTTPResponseHXRedirect(redirect_to=redirect_to)
