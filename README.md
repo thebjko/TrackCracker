@@ -55,7 +55,6 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
     - 달성률 100% 또는 체크되었을 때 완료가 됨.
 - ~~마크다운~~
 - 브레드크럼 → 캐시? 세션?
-- Objective를 선택했을 때 Subtask로 링크를 타고 들어가더라도 Navbar에 Objective 고정하기.
 - 시간 측정하기 → 쿠키 + `setInterval` (js, [코딩애플](https://youtu.be/oWSNOrBbOIU?t=246)) + 1초마다 쿠키에 기록
 - 시간 측정해 데이터베이스에 기록하기 (`DurationField`?)
 - 타입별 필터링하기.
@@ -63,3 +62,7 @@ Supertask를 갖는 Task 목록을 보여주는 페이지.
 - 완료되지 않은 목록만 볼 수 있게 필터링하기
 - 완료한 목록 보기
 - Offcanvas 사이즈 넓게 하기
+- Navbar 구현
+    - Objective를 선택했을 때 Subtask로 링크를 타고 들어가더라도 Navbar에 Objective 고정하기.
+- Subtask 클릭시 해당 Task의 Supertask가 맨 위에 뜨게 하기.
+    - ex) Objective : 목표1\nTask : 태스크1\n 이후 서브태스크 목록
