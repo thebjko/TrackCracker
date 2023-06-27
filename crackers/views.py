@@ -19,8 +19,19 @@ def tasks(request, objective_pk):
     context = {
         'tasks': tasks,
         'objective': get_object_or_404(Objective, pk=objective_pk),
+        'base_template': 'crackers/components/_task_base.html',
     }
     return render(request, 'crackers/task.html', context)
+
+
+def subtasks(request, supertask_pk):
+    tasks = Task.objects.filter(supertask=supertask_pk)
+    context = {
+        'tasks': tasks,
+        'supertask': get_object_or_404(Task, pk=supertask_pk),
+        'base_template': 'crackers/components/_subtask_base.html',
+    }
+    return render(request, 'crackers/subtask.html', context)
 
 
 # create objective
@@ -93,3 +104,4 @@ def delete(request, objective_pk):
     objective.delete()
     # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
+

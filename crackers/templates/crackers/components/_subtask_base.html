@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="d-inline-block">Task : {{ supertask.title }}</h1>
+<span># {{ supertask.type }}</span><br>
+<span>{{ supertask.achievement }}% Achieved</span>
+
+{% block task_template %}
+{% endblock task_template %}
+
+{% endblock content %}
