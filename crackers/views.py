@@ -15,10 +15,10 @@ def index(request):
 
 
 def tasks(request, pk):
-    tasks = Task.objects.filter(supertask=pk)   # pk만 넘겨도 된다.
+    tasks = Task.objects.filter(objective=pk)   # pk만 넘겨도 된다.
     context = {
         'tasks': tasks,
-        'supertask': get_object_or_404(Task, pk=pk),
+        'objective': get_object_or_404(Objective, pk=pk),
     }
     return render(request, 'crackers/task.html', context)
 
