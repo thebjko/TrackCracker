@@ -15,5 +15,5 @@ urlpatterns = [
     # path('subtasks/<int:supertask_pk>/create/', views.create_task, name='create_task'),    # create subtask under supertask
     
     path('objective/<int:objective_pk>/update/', views.update, name='update'),   # tasks under objective of pk
-    path('<int:pk>/delete/', views.delete, name='delete'),
+    path('objective/<int:objective_pk>/delete/', views.delete, name='delete'),
 ]

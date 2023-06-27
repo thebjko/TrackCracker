@@ -88,14 +88,8 @@ def update(request, objective_pk):   # Objective Update
     return render(request, 'crackers/update.html', context)
 
 
-def delete(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    supertask = task.supertask
-    task.delete()
-    if supertask is None:
-        redirect_to = reverse_lazy('tracks:index')
-    else:
-        redirect_to = reverse_lazy('tracks:tasks', kwargs={'pk': supertask.pk})
-    # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다.
-    # return HttpResponse(trigger={'test': dict()})
-    return HTTPResponseHXRedirect(redirect_to=redirect_to)
+def delete(request, objective_pk):
+    objective = get_object_or_404(Objective, pk=objective_pk)
+    objective.delete()
+    # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
+    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
