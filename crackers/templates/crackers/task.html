@@ -14,7 +14,28 @@
   </thead>
   <tbody>
     {% for task in tasks %}
-    {% include 'crackers/components/table_row.html' %}
+    <tr>
+      <th scope="row">{{ task.pk }}</th>
+      {% if task.subtasks.exists %}
+      <td>
+        <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
+      </td>
+      {% else %}
+      <td>
+        <button class="btn btn-sm" hx-get="{% url 'tracks:create_subtask' task.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
+          {{ task.title }}
+        </button>
+      </td>
+      {% endif %}
+      <td><p class="btn btn-sm">{{ task.achievement }}</p></td>
+      <td><p class="btn btn-sm">{{ task.completed }}(체크박스 또는 hx)</p></td>
+      <td><p class="btn btn-sm">{{ task.duration }}</p></td>
+      <td>
+        <a class="btn btn-primary btn-sm"
+          hx-delete="{% url 'tracks:delete' task.pk %}"
+          hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Task</a>
+      </td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>

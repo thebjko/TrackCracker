@@ -46,7 +46,6 @@ def create(request):
     context = {
         'form': form,
         'title': 'Create Objective',
-        # 'base_template': 'crackers/base/_create_base.html',
         'action': reverse_lazy('tracks:create')
     }
     return render(request, 'crackers/create.html', context)
@@ -67,14 +66,9 @@ def create_task(request, objective_pk):
         'form': form,
         'objective_pk': objective_pk,
         'title': 'Create Task',
-        # 'base_template': 'crackers/base/_create_task_base.html',
         'action': reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk})
     }
     return render(request, 'crackers/create.html', context)
-
-
-def redirect_to_create_task(request, objective_pk):
-    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk}))
 
 
 def create_subtask(request, supertask_pk):
@@ -92,10 +86,9 @@ def create_subtask(request, supertask_pk):
         'form': form,
         'supertask_pk': supertask_pk,
         'title': 'Create Task',
-        # 'base_template': 'crackers/base/_create_task_base.html',
         'action': reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
     }
-    return render(request, 'crackers/create_task.html', context)
+    return render(request, 'crackers/create.html', context)
 
 
 def detail(request, objective_pk):

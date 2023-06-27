@@ -8,7 +8,7 @@
 {% block task_template %}
 {% endblock task_template %}
 
-<a class="btn btn-link" href="{% url 'tracks:create_subtask' objective.pk %}">Create Subtask</a>
+<a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
 {% comment %} <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a> {% endcomment %}
 {% comment %} <a class="btn btn-link"
   hx-delete="{% url 'tracks:delete_task' supertask.pk %}"
