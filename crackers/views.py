@@ -72,16 +72,16 @@ def detail(request, objective_pk):
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
 
 
-def update(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+def update(request, objective_pk):   # Objective Update
+    objective = get_object_or_404(Objective, pk=objective_pk)
     if request.method == 'PUT':
         data = QueryDict(request.body).dict()
-        form = TaskForm(data=data, instance=task)
+        form = ObjectiveForm(data=data, instance=objective)
         if form.is_valid():
             form.save()
-            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'pk': pk}))
+            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
     else:
-        form = TaskForm(instance=task)
+        form = ObjectiveForm(instance=objective)
     context = {
         'form': form,
     }
