@@ -127,6 +127,7 @@ def update(request, objective_pk):   # Objective Update
         form = ObjectiveForm(instance=objective)
     context = {
         'form': form,
+        'title': 'Update Objective',
     }
     return render(request, 'crackers/update.html', context)
 
@@ -147,6 +148,7 @@ def update_task(request, task_pk):
         form = TaskForm(instance=task)
     context = {
         'form': form,
+        'title': 'Update Task',
     }
     return render(request, 'crackers/update.html', context)
 
