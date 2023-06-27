@@ -6,7 +6,7 @@
   </td>
   {% else %}
   <td>
-    <button class="btn btn-sm" hx-get="{% url 'tracks:redirect_to_create' task.pk %}" hx-confirm="There's no related subtask. Create one now.">
+    <button class="btn btn-sm" hx-get="{% url 'tracks:redirect_to_create_task' task.pk %}" hx-confirm="There's no related subtask. Create one now.">
       {{ task.title }}
     </button>
   </td>

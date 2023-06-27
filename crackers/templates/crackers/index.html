@@ -15,19 +15,32 @@
     </tr>
   </thead>
   <tbody>
-    {% if objectives %}
-    {% with objectives as tasks %}
-    {% for task in tasks %}
-    {% include 'crackers/components/table_row.html' %}
+    {% for objective in objectives %}
+    <tr>
+      <th scope="row">{{ task.pk }}</th>
+      {% if objective.tasks.exists %}
+      <td>
+        <button hx-get="{% url 'tracks:detail' objective.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ objective.title }}</button>
+      </td>
+      {% else %}
+      <td>
+        <button class="btn btn-sm" hx-get="{% url 'tracks:redirect_to_create_task' objective.pk %}" hx-confirm="There's no related subtask. Create one now.">
+          {{ objective.title }}
+        </button>
+      </td>
+      {% endif %}
+      <td><p class="btn btn-sm">{{ objective.achievement }}</p></td>
+      <td><p class="btn btn-sm">{{ objective.completed }}(체크박스 또는 hx)</p></td>
+      <td><p class="btn btn-sm">{{ objective.duration }}</p></td>
+      <td>
+        <a class="btn btn-primary btn-sm"
+          hx-delete="{% url 'tracks:delete' objective.pk %}"
+          hx-confirm="Are you sure to delete this objective? This will delete all related subtasks.">Delete Objective</a>
+      </td>
+    </tr>
     {% endfor %}
-    {% endwith %}
-    {% else %}
-    {% for task in tasks %}
-    {% include 'crackers/components/table_row.html' %}
-    {% endfor %}
-    {% endif %}
   </tbody>
 </table>
 <a href="{% url 'tracks:create' %}">Create Objective</a>
-<a href="{% url 'tracks:update' %}">Update Objective</a>
+{% comment %} <a href="{% url 'tracks:update' %}">Update Objective</a> {% endcomment %}
 {% endblock content %}
