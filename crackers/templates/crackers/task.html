@@ -32,8 +32,8 @@
       <td><p class="btn btn-sm">{{ task.duration }}</p></td>
       <td>
         <a class="btn btn-primary btn-sm"
-          hx-delete="{% url 'tracks:delete' task.pk %}"
-          hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Task</a>
+          hx-delete="{% url 'tracks:delete_task' task.pk %}"
+          hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete</a>
       </td>
     </tr>
     {% endfor %}

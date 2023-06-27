@@ -160,3 +160,13 @@ def delete(request, objective_pk):
     # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
 
+
+def delete_task(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    supertask = task.supertask
+    if supertask is None:
+        redirect_to = reverse_lazy('tracks:tasks', kwargs={'objective_pk': task.objective.pk})
+    else:
+        redirect_to = reverse_lazy('tracks:subtasks', kwargs={'supertask_pk': supertask.pk})
+    task.delete()
+    return HTTPResponseHXRedirect(redirect_to=redirect_to)
