@@ -103,6 +103,18 @@ def detail(request, objective_pk):
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
 
 
+def task_detail(request, supertask_pk):
+    context = {
+        'task': get_object_or_404(Task, pk=supertask_pk)
+    }
+    trigger = {
+        'change-offcanvas-title': {
+            'title': context['task'].title
+        }
+    }
+    return render(request, 'crackers/components/task_detail.html', context, trigger=trigger)
+
+
 def update(request, objective_pk):   # Objective Update
     objective = get_object_or_404(Objective, pk=objective_pk)
     if request.method == 'PUT':
