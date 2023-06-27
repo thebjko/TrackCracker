@@ -131,6 +131,26 @@ def update(request, objective_pk):   # Objective Update
     return render(request, 'crackers/update.html', context)
 
 
+def update_task(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    if request.method == 'PUT':
+        data = QueryDict(request.body).dict()
+        form = TaskForm(data=data, instance=task)
+        if form.is_valid():
+            form.save()
+            if task.supertask is None:
+                redirect_to = reverse_lazy('tracks:tasks', kwargs={'objective_pk': task.objective.pk})
+            else:
+                redirect_to = reverse_lazy('tracks:subtasks', kwargs={'supertask_pk': task.supertask.pk})
+            return HTTPResponseHXRedirect(redirect_to=redirect_to)
+    else:
+        form = TaskForm(instance=task)
+    context = {
+        'form': form,
+    }
+    return render(request, 'crackers/update.html', context)
+
+
 def delete(request, objective_pk):
     objective = get_object_or_404(Objective, pk=objective_pk)
     objective.delete()
