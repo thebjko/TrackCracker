@@ -24,7 +24,7 @@
       </td>
       {% else %}
       <td>
-        <button class="btn btn-sm" hx-get="{% url 'tracks:redirect_to_create_task' objective.pk %}" hx-confirm="There's no related subtask. Create one now.">
+        <button class="btn btn-sm" hx-get="{% url 'tracks:create_task' objective.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
           {{ objective.title }}
         </button>
       </td>
