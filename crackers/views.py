@@ -92,8 +92,10 @@ def create_subtask(request, supertask_pk):
 
 
 def detail(request, objective_pk):
+    objective = get_object_or_404(Objective, pk=objective_pk)
     context = {
-        'objective': get_object_or_404(Objective, pk=objective_pk)
+        'objective': objective,
+        'tasks': objective.tasks.filter(supertask=None),
     }
     trigger = {
         'change-offcanvas-title': {
