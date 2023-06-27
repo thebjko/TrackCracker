@@ -123,7 +123,7 @@ def update(request, objective_pk):   # Objective Update
         if form.is_valid():
             form.save()
             # 적절하게 분배
-            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
+            return redirect(request.META.get('HTTP_REFERER'))
     else:
         form = ObjectiveForm(instance=objective)
     context = {
