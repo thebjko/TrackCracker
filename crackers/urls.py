@@ -15,6 +15,6 @@ urlpatterns = [
     path('objective/<int:objective_pk>/redirect/', views.redirect_to_create_task, name='redirect_to_create_task'),
     
     path('subtasks/<int:supertask_pk>/', views.subtasks, name='subtasks'),   # subtasks under supertask of pk
-    # path('subtasks/<int:supertask_pk>/create/', views.create_task, name='create_task'),    # create subtask under supertask
+    path('subtasks/<int:supertask_pk>/create/', views.create_task, name='create_task'),    # create subtask under supertask
     
 ]

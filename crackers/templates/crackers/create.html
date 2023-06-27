@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Create Objective</h1>
-
-<form action="{% url 'tracks:create' %}" method="post">
+<h1>{{ title }}</h1>
+<form action="{{ action }}" method="post">
   {% csrf_token %}
   {% with form.title as title %}
   <div class="form-group">
@@ -33,7 +32,7 @@
   </div>
   {% endwith %}
   
-  {% if supertask_pk %}
+  {% if supertask_pk or objective_pk %}
   {% with form.proportion as proportion %}
   <div class="form-group">
     <label for="{{ proportion.id_for_label }}">{{ proportion.label }}</label>
