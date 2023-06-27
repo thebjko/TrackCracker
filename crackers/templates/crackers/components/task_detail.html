@@ -8,6 +8,6 @@
 <a class="btn btn-link" href="{% url 'tracks:subtasks' task.pk %}">See in Table</a>
 <a class="btn btn-link" href="{% url 'tracks:create_task' task.pk %}">Create Subtask</a>
 <a class="btn btn-link" href="{% url 'tracks:update_task' task.pk %}">Update Task</a>
-{% comment %} <a class="btn btn-link"
-  hx-delete="{% url 'tracks:delete' task.pk %}"
-  hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Objective</a> {% endcomment %}
+<a class="btn btn-link"
+  hx-delete="{% url 'tracks:delete_task' task.pk %}"
+  hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete Task</a>
