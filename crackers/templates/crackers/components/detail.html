@@ -1,7 +1,7 @@
 <div>{{ objective.description }}</div>
 <h6>Task List</h6>
 <ul>
-  {% for task in objective.tasks.all %}
+  {% for task in tasks %}
   <li><span>{{ task.title }}</span><span>{{ task.achievement }}</span></li>
   {% endfor %}
 </ul>
