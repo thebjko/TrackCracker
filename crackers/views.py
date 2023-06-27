@@ -14,17 +14,17 @@ def index(request):
     return render(request, 'crackers/index.html', context)
 
 
-def tasks(request, pk):
-    tasks = Task.objects.filter(objective=pk)   # pk만 넘겨도 된다.
+def tasks(request, objective_pk):
+    tasks = Task.objects.filter(objective=objective_pk)   # pk만 넘겨도 된다.
     context = {
         'tasks': tasks,
-        'objective': get_object_or_404(Objective, pk=pk),
+        'objective': get_object_or_404(Objective, pk=objective_pk),
     }
     return render(request, 'crackers/task.html', context)
 
 
 # create objective
-def create(request, pk=None):
+def create(request):
     if request.method == 'POST':
         form = ObjectiveForm(data=request.POST)
         if form.is_valid():
@@ -39,34 +39,34 @@ def create(request, pk=None):
 
 
 # create task (*task : subtask right under an objective)
-def create_task(request, pk):   
+def create_task(request, objective_pk):   
     if request.method == 'POST':
         form = TaskForm(data=request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.objective = get_object_or_404(Objective, pk=pk)
+            task.objective = get_object_or_404(Objective, pk=objective_pk)
             task.save()
-            return redirect('tracks:tasks', pk)
+            return redirect('tracks:tasks', objective_pk)
     else:
         form = TaskForm()
     context = {
         'form': form,
-        'objective_pk': pk,
+        'objective_pk': objective_pk,
     }
     return render(request, 'crackers/create_task.html', context)
 
 
-def redirect_to_create_task(request, pk):
-    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create_task', kwargs={'pk': pk}))
+def redirect_to_create_task(request, objective_pk):
+    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk}))
 
 
-def detail(request, pk):
+def detail(request, objective_pk):
     context = {
-        'task': get_object_or_404(Task, pk=pk)
+        'objective': get_object_or_404(Objective, pk=objective_pk)
     }
     trigger = {
         'change-offcanvas-title': {
-            'title': context['task'].title
+            'title': context['objective'].title
         }
     }
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
