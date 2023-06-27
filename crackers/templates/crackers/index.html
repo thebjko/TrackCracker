@@ -15,9 +15,17 @@
     </tr>
   </thead>
   <tbody>
+    {% if objectives %}
+    {% with objectives as tasks %}
     {% for task in tasks %}
     {% include 'crackers/components/table_row.html' %}
     {% endfor %}
+    {% endwith %}
+    {% else %}
+    {% for task in tasks %}
+    {% include 'crackers/components/table_row.html' %}
+    {% endfor %}
+    {% endif %}
   </tbody>
 </table>
 <a href="{% url 'tracks:create' %}">Create Objective</a>
