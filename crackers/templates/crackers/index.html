@@ -17,14 +17,14 @@
   <tbody>
     {% for objective in objectives %}
     <tr>
-      <th scope="row">{{ task.pk }}</th>
+      <th scope="row">{{ objective.pk }}</th>
       {% if objective.tasks.exists %}
       <td>
         <button hx-get="{% url 'tracks:detail' objective.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ objective.title }}</button>
       </td>
       {% else %}
       <td>
-        <button class="btn btn-sm" hx-get="{% url 'tracks:redirect_to_create_task' objective.pk %}" hx-confirm="There's no related subtask. Create one now.">
+        <button class="btn btn-sm" hx-get="{% url 'tracks:create_task' objective.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
           {{ objective.title }}
         </button>
       </td>

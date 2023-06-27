@@ -19,7 +19,7 @@ def tasks(request, objective_pk):
     context = {
         'tasks': tasks,
         'objective': get_object_or_404(Objective, pk=objective_pk),
-        'base_template': 'crackers/components/_task_base.html',
+        'base_template': 'crackers/base/_task_base.html',
     }
     return render(request, 'crackers/task.html', context)
 
@@ -29,9 +29,9 @@ def subtasks(request, supertask_pk):
     context = {
         'tasks': tasks,
         'supertask': get_object_or_404(Task, pk=supertask_pk),
-        'base_template': 'crackers/components/_subtask_base.html',
+        'base_template': 'crackers/base/_subtask_base.html',
     }
-    return render(request, 'crackers/subtask.html', context)
+    return render(request, 'crackers/task.html', context)
 
 
 # create objective
@@ -45,6 +45,8 @@ def create(request):
         form = ObjectiveForm()
     context = {
         'form': form,
+        'title': 'Create Objective',
+        'action': reverse_lazy('tracks:create')
     }
     return render(request, 'crackers/create.html', context)
 
@@ -63,12 +65,30 @@ def create_task(request, objective_pk):
     context = {
         'form': form,
         'objective_pk': objective_pk,
+        'title': 'Create Task',
+        'action': reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk})
     }
-    return render(request, 'crackers/create_task.html', context)
+    return render(request, 'crackers/create.html', context)
 
 
-def redirect_to_create_task(request, objective_pk):
-    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk}))
+def create_subtask(request, supertask_pk):
+    if request.method == 'POST':
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.supertask = get_object_or_404(Task, pk=supertask_pk)
+            task.objective = task.supertask.objective
+            task.save()
+            return redirect('tracks:subtasks', supertask_pk)
+    else:
+        form = TaskForm()
+    context = {
+        'form': form,
+        'supertask_pk': supertask_pk,
+        'title': 'Create Task',
+        'action': reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
+    }
+    return render(request, 'crackers/create.html', context)
 
 
 def detail(request, objective_pk):

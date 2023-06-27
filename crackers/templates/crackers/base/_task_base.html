@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="d-inline-block">Objective : {{ objective.title }}</h1>
+<span># {{ objective.type }}</span><br>
+<span>{{ objective.achievement }}% Achieved</span>
+
+{% block task_template %}
+{% endblock task_template %}
+
+<a class="btn btn-link" href="{% url 'tracks:create_task' objective.pk %}">Create Subtask</a>
+<a class="btn btn-link" href="{% url 'tracks:update' objective.pk %}">Update Task</a>
+<a class="btn btn-link"
+  hx-delete="{% url 'tracks:delete' objective.pk %}"
+  hx-confirm="Are you sure to delete this task? This action deletes all related subtasks.">Delete Task</a>
+{% endblock content %}

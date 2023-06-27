@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="d-inline-block">Task : {{ supertask.title }}</h1>
+<span># {{ supertask.type }}</span><br>
+<span>{{ supertask.achievement }}% Achieved</span>
+
+{% block task_template %}
+{% endblock task_template %}
+
+<a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
+{% comment %} <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a> {% endcomment %}
+{% comment %} <a class="btn btn-link"
+  hx-delete="{% url 'tracks:delete_task' supertask.pk %}"
+  hx-confirm="Are you sure to delete this task? This action deletes all related subtasks.">Delete Task</a> {% endcomment %}
+{% endblock content %}
