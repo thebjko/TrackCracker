@@ -15,7 +15,7 @@ def index(request):
 
 
 def tasks(request, objective_pk):
-    tasks = Task.objects.filter(objective=objective_pk)   # pk만 넘겨도 된다.
+    tasks = Task.objects.filter(objective=objective_pk, supertask=None)   # pk만 넘겨도 된다.
     context = {
         'tasks': tasks,
         'objective': get_object_or_404(Objective, pk=objective_pk),
