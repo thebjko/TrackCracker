@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Objectives</h1>
 <p>Click Objective Title to See Subtask or Create One.</p>
-{% block task %}
-{% endblock task %}
-{% comment %} <a href="{% url 'tracks:create' %}">Create Objective</a> {% endcomment %}
+{% block task_template %}
+{% endblock task_template %}
+<a href="{% url 'tracks:create' %}">Create Objective</a>
 {% endblock content %}
