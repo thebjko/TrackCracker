@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="d-inline-block">Objective : {{ objective.title }}</h1>
-<span># {{ objective.type }}</span><br>
-<span>{{ objective.achievement }}% Achieved</span>
+<div>
+  <h1 class="d-inline-block">Objective : {{ objective.title }}</h1>
+  <span># {{ objective.type }}</span><br>
+  <span>{{ objective.achievement }}% Achieved</span>
+</div>
 
 {% block task_template %}
 {% endblock task_template %}

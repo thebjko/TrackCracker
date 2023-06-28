@@ -15,7 +15,7 @@
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'tracks:index' %}">Supertask</a>
+      <a class="navbar-brand" href="{% url 'tracks:index' %}">SuperTask</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -32,6 +32,9 @@
     {% if breadcrumb %}
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
+        {% if objective %}
+        <li class="breadcrumb-item"><a href="{% url 'tracks:tasks' objective.pk %}">{{ objective.title }}</a></li>
+        {% endif %}
         {% for crumb in breadcrumb %}
         {% if forloop.last %}
         <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
