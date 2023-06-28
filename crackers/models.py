@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Sum, FloatField
+from django.db.models import F, FloatField, Sum
 
 
 class Task(models.Model):
@@ -39,9 +39,11 @@ class Objective(models.Model):
     
     @property
     def achievement(self):
+        weighted_achievement_total = self.tasks.annotate(
+            weighted_achievement=F('achievement')*F('proportion')   # self를 사용하면 RecurssionError 발생
+        ).aggregate(weighted_achievement_total=Sum('weighted_achievement', output_field=FloatField())).get('weighted_achievement_total', 0)
         total = self.tasks.aggregate(total=Sum('proportion', output_field=FloatField())).get('total')
-        completed = self.tasks.filter(completed=True).aggregate(comp=Sum('proportion', output_field=FloatField())).get('comp')
-        return completed / total * 100
-
+        return weighted_achievement_total / total
+    
     class Meta:
         db_table = 'objective'
