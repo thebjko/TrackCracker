@@ -23,9 +23,7 @@ class Task(models.Model):
 
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)
-    #     if self.supertask:
-    #         self.supertask.subtasks.aggregate(models.Sum(''))
-
+    #     print('save called')
 
 class Objective(models.Model):
     title = models.CharField('title', max_length=100)
