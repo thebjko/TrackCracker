@@ -41,7 +41,9 @@ class Objective(models.Model):
     def achievement(self):
         weighted_achievement_total = self.tasks.annotate(
             weighted_achievement=F('achievement')*F('proportion')   # self를 사용하면 RecurssionError 발생
-        ).aggregate(weighted_achievement_total=Sum('weighted_achievement', output_field=FloatField())).get('weighted_achievement_total', 0)
+        ).aggregate(
+            weighted_achievement_total=Sum('weighted_achievement', output_field=FloatField())
+        ).get('weighted_achievement_total', 0)
         total = self.tasks.aggregate(total=Sum('proportion', output_field=FloatField())).get('total')
         return weighted_achievement_total / total
     
