@@ -25,6 +25,7 @@ class Task(models.Model):
     #     super().save(*args, **kwargs)
     #     print('save called')
 
+
 class Objective(models.Model):
     title = models.CharField('title', max_length=100)
     description = models.TextField('description', null=True, blank=True)
