@@ -4,7 +4,9 @@
 <div>
   <h1 class="d-inline-block">Objective : {{ objective.title }}</h1>
   <span># {{ objective.type }}</span><br>
-  <span>{{ objective.achievement }}% Achieved</span>
+  <div class="progress" role="progressbar" aria-label="objective-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar bg-danger" style="width: {% widthratio objective.achievement 1 100 as width %}{{ width }}%">{{ width }}% Achieved</div>
+  </div>
 </div>
 
 {% block task_template %}

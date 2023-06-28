@@ -16,6 +16,7 @@
   </thead>
   <tbody>
     {% for objective in objectives %}
+    {% widthratio objective.achievement 1 100 as width %}
     <tr>
       <th scope="row">{{ objective.pk }}</th>
       {% if objective.tasks.exists %}
@@ -29,7 +30,11 @@
         </button>
       </td>
       {% endif %}
-      <td><p class="btn btn-sm">{{ objective.achievement }}</p></td>
+      <td>
+        <div class="progress" role="progressbar" aria-label="objective-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar bg-info text-body" style="width: {{ width }}%">{{ width }}% Achieved</div>
+        </div>
+      </td>
       <td><p class="btn btn-sm">{{ objective.completed }}(체크박스 또는 hx)</p></td>
       <td><p class="btn btn-sm">{{ objective.duration }}</p></td>
       <td>

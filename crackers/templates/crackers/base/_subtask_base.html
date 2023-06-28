@@ -4,7 +4,9 @@
 <div>
   <h1 class="d-inline-block">Task : {{ supertask.title }}</h1>
   <span># {{ supertask.type }}</span><br>
-  <span>{{ supertask.achievement }}% Achieved</span>
+  <div class="progress" role="progressbar" aria-label="supertask-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar bg-danger" style="width: {% widthratio supertask.achievement 1 100 as width %}{{ width }}%">{{ width }}% Achieved</div>
+  </div>
 </div>
   
 {% block task_template %}
