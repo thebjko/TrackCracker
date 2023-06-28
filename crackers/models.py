@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Task(models.Model):
     title = models.CharField('title', max_length=100)
     description = models.TextField('description', null=True, blank=True)
@@ -10,15 +11,18 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.DurationField('duration', null=True, blank=True)
+    
     proportion = models.IntegerField('proportion')   # 이 Task가 Supertask 또는 Objective에서 차지하는 비중
     total = models.IntegerField('total', default=10_000)
+    achievement = models.FloatField('achievement', default=0)
     
-    @property
-    def achievement(self):
-        pass
-
     class Meta:
         db_table = 'task'
+
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if self.supertask:
+    #         self.supertask.subtasks.aggregate(models.Sum(''))
 
 
 class Objective(models.Model):
@@ -33,7 +37,7 @@ class Objective(models.Model):
     
     @property
     def achievement(self):
-        pass
+        return self.tasks.aggregate(models.Sum('achievement', output_field=models.FloatField()))
 
     class Meta:
         db_table = 'objective'
