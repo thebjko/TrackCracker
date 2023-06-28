@@ -39,16 +39,16 @@ Task와 서브태스크 목록을 나타내는 페이지.
 
 
 # 구현할 것들
-- Navbar에 해당 Objective Title 유지하기, 달성률 보여주기
-- breadcrumb 구현하기(링크)
-- detail offcanvas 스타일링
-- Accumulate Proportion 입력할 수 있게 하기
-    - FormHelper? 사용
-- 소요시간 측정
-    - 예상 소요시간 계산하기
-- 타입별 필터, 완료, 미완
-- 오늘의 할일 목록에 추가하기 기능 → 오늘의 할일 페이지
+- Navbar에 해당 Objective Title 유지하기, 달성률 보여주기 ✅ → task, subtask 페이지 상단에 구현
+- Achievement → Progress Bar로 구현하기 ✅
+- breadcrumb 구현하기(링크) ✅
 - 완료 체크하기
     - 완료 체크시 Achievement는 1.0이 되지만, 서브태스크들의 Achievement는 그대로 유지한다.
     - Achievement가 1.0이 되면 완료 체크가 된다.
-- Achievement → Progress Bar로 구현하기
+- Accumulate Proportion 입력할 수 있게 하기
+    - FormHelper? 사용
+- detail offcanvas 스타일링
+- 타입별 필터, 완료, 미완
+- 오늘의 할일 목록에 추가하기 기능 → 오늘의 할일 페이지
+- 소요시간 측정
+    - 예상 소요시간 계산하기
