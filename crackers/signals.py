@@ -7,7 +7,7 @@ from .models import Task
 
 @receiver([post_save, post_delete], sender=Task)
 def reassess_achievement(sender, instance, **kwargs):
-    if instance.supertask is not None:
+    if instance.supertask is not None and instance.supertask.completed == False:
         weighted_achievement_total = instance.supertask.subtasks.annotate(
             weighted_achievement=F('achievement')*F('proportion')
         ).aggregate(
