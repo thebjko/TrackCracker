@@ -37,7 +37,10 @@ class Objective(models.Model):
     
     @property
     def achievement(self):
-        return self.tasks.aggregate(models.Sum('achievement', output_field=models.FloatField()))
+        total = self.tasks.aggregate(sum=models.Sum('proportion', output_field=models.FloatField())).get('sum')
+        completed = self.tasks.filter(completed=True).aggregate(comp=models.Sum('proportion', output_field=models.FloatField())).get('comp')
+        return completed / total * 100
+
 
     class Meta:
         db_table = 'objective'
