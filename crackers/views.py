@@ -30,6 +30,7 @@ def subtasks(request, supertask_pk):
     context = {
         'tasks': tasks,
         'supertask': supertask,
+        'objective': supertask.objective,
         'base_template': 'crackers/base/_subtask_base.html',
         'breadcrumb': supertask.breadcrumb(),
     }
