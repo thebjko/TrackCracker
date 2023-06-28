@@ -14,9 +14,9 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.DurationField('duration', null=True, blank=True)
     
-    proportion = models.FloatField('proportion', validators=[MaxValueValidator(1.0), MinValueValidator(0.0)])   # 이 Task가 Supertask 또는 Objective에서 차지하는 비중
+    proportion = models.IntegerField('proportion', validators=[MinValueValidator(0)])   # 이 Task가 Supertask 또는 Objective에서 차지하는 비중
     total = models.IntegerField('total', default=10_000)
-    achievement = models.FloatField('achievement', default=0)
+    achievement = models.FloatField('achievement', default=0, validators=[MaxValueValidator(1.0), MinValueValidator(0.0)])
     
     class Meta:
         db_table = 'task'
