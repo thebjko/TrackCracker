@@ -6,7 +6,7 @@
   {% endfor %}
 </ul>
 <a class="btn btn-link" href="{% url 'tracks:subtasks' task.pk %}">See in Table</a>
-<a class="btn btn-link" href="{% url 'tracks:create_task' task.pk %}">Create Subtask</a>
+<a class="btn btn-link" href="{% url 'tracks:create_subtask' task.pk %}">Create Subtask</a>
 <a class="btn btn-link" href="{% url 'tracks:update_task' task.pk %}">Update Task</a>
 <a class="btn btn-link"
   hx-delete="{% url 'tracks:delete_task' task.pk %}"
