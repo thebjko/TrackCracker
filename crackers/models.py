@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum, FloatField
 
 
 class Task(models.Model):
@@ -37,10 +38,9 @@ class Objective(models.Model):
     
     @property
     def achievement(self):
-        total = self.tasks.aggregate(total=models.Sum('proportion', output_field=models.FloatField())).get('total')
-        completed = self.tasks.filter(completed=True).aggregate(comp=models.Sum('proportion', output_field=models.FloatField())).get('comp')
+        total = self.tasks.aggregate(total=Sum('proportion', output_field=FloatField())).get('total')
+        completed = self.tasks.filter(completed=True).aggregate(comp=Sum('proportion', output_field=FloatField())).get('comp')
         return completed / total * 100
-
 
     class Meta:
         db_table = 'objective'
