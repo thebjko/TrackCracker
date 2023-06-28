@@ -26,10 +26,12 @@ def tasks(request, objective_pk):
 
 def subtasks(request, supertask_pk):
     tasks = Task.objects.filter(supertask=supertask_pk)
+    supertask = get_object_or_404(Task, pk=supertask_pk)
     context = {
         'tasks': tasks,
-        'supertask': get_object_or_404(Task, pk=supertask_pk),
+        'supertask': supertask,
         'base_template': 'crackers/base/_subtask_base.html',
+        'breadcrumb': supertask.breadcrumb(),
     }
     return render(request, 'crackers/task.html', context)
 

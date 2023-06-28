@@ -13,11 +13,26 @@
   }
 </style>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <section class="container">
+    {% if breadcrumb %}
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% for crumb in breadcrumb %}
+        {% if forloop.last %}
+        <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+        {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'tracks:subtasks' crumb.pk %}">{{ crumb.title }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    {% endif %}
+  </section>
+  
   <main class="container">
     {% block content %}
     {% endblock content %}
   </main>
-  {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> {% endcomment %}
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
