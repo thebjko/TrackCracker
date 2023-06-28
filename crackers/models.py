@@ -18,12 +18,16 @@ class Task(models.Model):
     total = models.IntegerField('total', default=10_000)
     achievement = models.FloatField('achievement', default=0, validators=[MaxValueValidator(1.0), MinValueValidator(0.0)])
     
+    def breadcrumb(self):
+        crumb = [self]
+        supertask = self.supertask
+        while supertask is not None:
+            crumb.append(supertask)
+            supertask = supertask.supertask
+        return reversed(crumb)
+    
     class Meta:
         db_table = 'task'
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     print('save called')
 
 
 class Objective(models.Model):
@@ -36,16 +40,6 @@ class Objective(models.Model):
     duration = models.DurationField('duration', null=True, blank=True)
     total = models.IntegerField('total', default=10_000)
     achievement = models.FloatField('achievement', default=0.0)
-    
-    # @property
-    # def achievement(self):
-    #     weighted_achievement_total = self.tasks.annotate(
-    #         weighted_achievement=F('achievement')*F('proportion')   # self를 사용하면 RecurssionError 발생
-    #     ).aggregate(
-    #         weighted_achievement_total=Sum('weighted_achievement', output_field=FloatField())
-    #     ).get('weighted_achievement_total', 0)
-    #     total = self.tasks.aggregate(total=Sum('proportion', output_field=FloatField())).get('total')
-    #     return weighted_achievement_total / total
-    
+
     class Meta:
         db_table = 'objective'
