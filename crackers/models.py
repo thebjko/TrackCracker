@@ -37,7 +37,7 @@ class Objective(models.Model):
     
     @property
     def achievement(self):
-        total = self.tasks.aggregate(sum=models.Sum('proportion', output_field=models.FloatField())).get('sum')
+        total = self.tasks.aggregate(total=models.Sum('proportion', output_field=models.FloatField())).get('total')
         completed = self.tasks.filter(completed=True).aggregate(comp=models.Sum('proportion', output_field=models.FloatField())).get('comp')
         return completed / total * 100
 
