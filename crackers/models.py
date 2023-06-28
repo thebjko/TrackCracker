@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Sum, FloatField
 
@@ -13,7 +14,7 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.DurationField('duration', null=True, blank=True)
     
-    proportion = models.IntegerField('proportion')   # 이 Task가 Supertask 또는 Objective에서 차지하는 비중
+    proportion = models.IntegerField('proportion', validators=[MaxValueValidator(100), MinValueValidator(0)])   # 이 Task가 Supertask 또는 Objective에서 차지하는 비중
     total = models.IntegerField('total', default=10_000)
     achievement = models.FloatField('achievement', default=0)
     
