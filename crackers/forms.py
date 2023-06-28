@@ -10,9 +10,7 @@ class TaskForm(forms.ModelForm):
         fields = (
             'title',
             'description',
-            'type',
             'proportion',
-            'total',
         )
     
     def clean_proportion(self):
