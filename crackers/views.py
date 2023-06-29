@@ -66,6 +66,14 @@ def detail(request, supertask_pk):
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
 
 
+def delete(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    task.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+    # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
+    # return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
+
+
 # def update(request, objective_pk):   # Objective Update
 #     objective = get_object_or_404(Objective, pk=objective_pk)
 #     if request.method == 'PUT':
@@ -102,13 +110,6 @@ def detail(request, supertask_pk):
 #         'title': 'Update Task',
 #     }
 #     return render(request, 'crackers/update.html', context)
-
-
-# def delete(request, objective_pk):
-#     objective = get_object_or_404(Objective, pk=objective_pk)
-#     objective.delete()
-#     # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
-#     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
 
 
 # def delete_task(request, task_pk):
