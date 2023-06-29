@@ -78,15 +78,19 @@ def update(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if request.method == 'PUT':
         data = QueryDict(request.body).dict()
+        path = data.pop('_path')
         form = TaskForm(data=data, instance=task)
         if form.is_valid():
             form.save()
             # detail에서 수정했을때는 supertask로 가야한다.
-            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': task_pk}))
+            # return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': task_pk}))
+            return HTTPResponseHXRedirect(redirect_to=path)
     else:
         form = TaskForm(instance=task)
+        path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
+        'path': path,
     }
     return render(request, 'crackers/update.html', context)
 
