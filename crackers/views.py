@@ -74,50 +74,19 @@ def delete(request, task_pk):
     # return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
 
 
-# def update(request, objective_pk):   # Objective Update
-#     objective = get_object_or_404(Objective, pk=objective_pk)
-#     if request.method == 'PUT':
-#         data = QueryDict(request.body).dict()
-#         form = ObjectiveForm(data=data, instance=objective)
-#         if form.is_valid():
-#             form.save()
-#             return redirect(request.META.get('HTTP_REFERER'))
-#     else:
-#         form = ObjectiveForm(instance=objective)
-#     context = {
-#         'form': form,
-#         'title': 'Update Objective',
-#     }
-#     return render(request, 'crackers/update.html', context)
+def update(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    if request.method == 'PUT':
+        data = QueryDict(request.body).dict()
+        form = TaskForm(data=data, instance=task)
+        if form.is_valid():
+            form.save()
+            # detail에서 수정했을때는 supertask로 가야한다.
+            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': task_pk}))
+    else:
+        form = TaskForm(instance=task)
+    context = {
+        'form': form,
+    }
+    return render(request, 'crackers/update.html', context)
 
-
-# def update_task(request, task_pk):
-#     task = get_object_or_404(Task, pk=task_pk)
-#     if request.method == 'PUT':
-#         data = QueryDict(request.body).dict()
-#         form = TaskForm(data=data, instance=task)
-#         if form.is_valid():
-#             form.save()
-#             if task.supertask is None:
-#                 redirect_to = reverse_lazy('tracks:tasks', kwargs={'objective_pk': task.objective.pk})
-#             else:
-#                 redirect_to = reverse_lazy('tracks:subtasks', kwargs={'supertask_pk': task.supertask.pk})
-#             return HTTPResponseHXRedirect(redirect_to=redirect_to)
-#     else:
-#         form = TaskForm(instance=task)
-#     context = {
-#         'form': form,
-#         'title': 'Update Task',
-#     }
-#     return render(request, 'crackers/update.html', context)
-
-
-# def delete_task(request, task_pk):
-#     task = get_object_or_404(Task, pk=task_pk)
-#     supertask = task.supertask
-#     if supertask is None:
-#         redirect_to = reverse_lazy('tracks:tasks', kwargs={'objective_pk': task.objective.pk})
-#     else:
-#         redirect_to = reverse_lazy('tracks:subtasks', kwargs={'supertask_pk': supertask.pk})
-#     task.delete()
-#     return HTTPResponseHXRedirect(redirect_to=redirect_to)
