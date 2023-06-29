@@ -1,7 +1,9 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import F, FloatField, Sum
 
 from .signals import achievement_reassessment_signal
+
 
 class Task(models.Model):
     title = models.CharField('title', max_length=100)
@@ -25,8 +27,19 @@ class Task(models.Model):
         return self.achievement
     
 
-    def get_achievement(self):
-        pass
+    def assess_achievement(self):
+        if self.subtasks.exists():
+            weighed_achievement_total = self.subtasks.annotate(
+                weighted_achievement=F('proportion') if self.completed == True else F('achievement')*F('proportion')
+            ).aggregate(
+                weighed_achievement_total=Sum('weighted_achievement', output_field=FloatField())
+            ).get('weighed_achievement_total', 0)
+            total = self.subtasks.aggregate(
+                total=Sum('proportion', output_field=FloatField())
+            ).get('total', 1)
+            return weighed_achievement_total / total
+        else:
+            return 0.0
 
 
     def breadcrumb(self):

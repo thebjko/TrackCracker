@@ -101,21 +101,9 @@ def complete(request, task_pk):
     if task.completed:
         task.completed = False
         # subtasks로 현재 achievement 측정
-        if task.subtasks.exists():
-            weighed_achievement_total = task.subtasks.annotate(
-                weighted_achievement=F('pseudo_achievement')*F('proportion')
-            ).aggregate(
-                weighed_achievement_total=Sum('weighted_achievement', output_field=FloatField())
-            ).get('weighed_achievement_total', 0)
-            total = task.subtasks.aggregate(
-                total=Sum('proportion', output_field=FloatField())
-            ).get('total', 1)
-            task.achievement = weighed_achievement_total / total
-        else:
-            task.achievement = 0.0
+        task.achievement = task.assess_achievement()
     else:
         task.completed = True
-        # task.achievement = 1.0
     task.save()
     trigger = {
         'change-achievement-width': {
