@@ -3,10 +3,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import Task
-from .signals import custom_signal
+from .signals import achievement_reassessment_signal
 
 
-@receiver(custom_signal, sender=Task)
+@receiver(achievement_reassessment_signal, sender=Task)
 def reassess_achievement(sender, **kwargs):
     supertask = kwargs.pop('supertask', None)
     if supertask is not None and supertask.completed == False and supertask.subtasks.exists():
