@@ -20,6 +20,7 @@ def tasks(request, supertask_pk):
     supertask = get_object_or_404(Task, pk=supertask_pk)
     context = {
         'tasks': tasks,
+        'supertask': supertask,
         'breadcrumb': supertask.breadcrumb(),
         'base_template': 'crackers/base/_task.html',
     }
@@ -63,60 +64,6 @@ def detail(request, supertask_pk):
         }
     }
     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
-
-
-# # create task (*task : subtask right under an objective)
-# def create_task(request, objective_pk):   
-#     if request.method == 'POST':
-#         form = TaskForm(data=request.POST)
-#         if form.is_valid():
-#             task = form.save(commit=False)
-#             task.objective = get_object_or_404(Objective, pk=objective_pk)
-#             task.save()
-#             return redirect('tracks:tasks', objective_pk)
-#     else:
-#         form = TaskForm()
-#     context = {
-#         'form': form,
-#         'objective_pk': objective_pk,
-#         'title': 'Create Task',
-#         'action': reverse_lazy('tracks:create_task', kwargs={'objective_pk': objective_pk})
-#     }
-#     return render(request, 'crackers/create.html', context)
-
-
-# def create_subtask(request, supertask_pk):
-#     if request.method == 'POST':
-#         form = TaskForm(data=request.POST)
-#         if form.is_valid():
-#             task = form.save(commit=False)
-#             task.supertask = get_object_or_404(Task, pk=supertask_pk)
-#             task.objective = task.supertask.objective
-#             task.save()
-#             return redirect('tracks:subtasks', supertask_pk)
-#     else:
-#         form = TaskForm()
-#     context = {
-#         'form': form,
-#         'supertask_pk': supertask_pk,
-#         'title': 'Create Task',
-#         'action': reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
-#     }
-#     return render(request, 'crackers/create.html', context)
-
-
-
-
-# def task_detail(request, supertask_pk):
-#     context = {
-#         'task': get_object_or_404(Task, pk=supertask_pk)
-#     }
-#     trigger = {
-#         'change-offcanvas-title': {
-#             'title': context['task'].title
-#         }
-#     }
-#     return render(request, 'crackers/components/task_detail.html', context, trigger=trigger)
 
 
 # def update(request, objective_pk):   # Objective Update
