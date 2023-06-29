@@ -103,7 +103,7 @@ def complete(request, task_pk):
         # subtasks로 현재 achievement 측정
         if task.subtasks.exists():
             weighed_achievement_total = task.subtasks.annotate(
-                weighted_achievement=F('achievement')*F('proportion')
+                weighted_achievement=F('pseudo_achievement')*F('proportion')
             ).aggregate(
                 weighed_achievement_total=Sum('weighted_achievement', output_field=FloatField())
             ).get('weighed_achievement_total', 0)
