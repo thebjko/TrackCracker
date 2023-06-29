@@ -25,7 +25,8 @@ class Task(models.Model):
             crumb.append(supertask)
             supertask = supertask.supertask
         # return reversed(crumb)   # iterator, not list
-        return list(reversed(crumb))
+        crumb.reverse()
+        return crumb
     
 
     def save(self, *args, **kwargs):
