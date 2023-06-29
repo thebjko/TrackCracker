@@ -48,6 +48,8 @@ Task와 서브태스크 목록을 나타내는 페이지.
     - `completed`가 `True`일 때 `achievement` → `1.0` ✅
     - `completed`가 `False`일 때 `achievement` → 다시 계산 ✅
     - Achievement가 1.0이 되면 완료 체크, 내려가면 완료 체크 해제
+        - 처음 생성된 객체에는 수행할 필요 없으니 handler에서 작업한다.
+        - 만약 하위 태스크가 모두 completed라면 supertask의 completed는 disabled
 - Accumulate Proportion 입력할 수 있게 하기
     - FormHelper? 사용
 - detail offcanvas 스타일링
