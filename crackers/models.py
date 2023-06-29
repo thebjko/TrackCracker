@@ -16,7 +16,6 @@ class Task(models.Model):
     
     # type = models.CharField('type', max_length=50, null=True, blank=True, default=None)
     # duration = models.DurationField('duration', null=True, blank=True)
-    # objective = models.ForeignKey('crackers.Objective', verbose_name='objective', on_delete=models.CASCADE, related_name='tasks')
     # total = models.IntegerField('total', default=10_000)
     
     def breadcrumb(self):
@@ -34,7 +33,6 @@ class Task(models.Model):
         achievement_reassessment_signal.send(sender=self.__class__, supertask=self.supertask)
 
     def delete(self, *args, **kwargs):
-        # 제대로 보내졌다.
         supertask = self.supertask
         result = super().delete(*args, **kwargs)
         achievement_reassessment_signal.send(sender=self.__class__, supertask=supertask)
@@ -42,18 +40,3 @@ class Task(models.Model):
     
     class Meta:
         db_table = 'task'
-
-
-# class Objective(models.Model):
-#     title = models.CharField('title', max_length=100)
-#     description = models.TextField('description', null=True, blank=True)
-#     type = models.CharField('type', max_length=50, null=True, blank=True, default=None)
-#     completed = models.BooleanField('completed', default=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     duration = models.DurationField('duration', null=True, blank=True)
-#     total = models.IntegerField('total', default=10_000)
-#     achievement = models.FloatField('achievement', default=0.0)
-
-#     class Meta:
-#         db_table = 'objective'
