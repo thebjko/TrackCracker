@@ -7,7 +7,7 @@
   {% with form.title as title %}
   <div class="form-group">
     <label for="{{ title.id_for_label }}">{{ title.label }}</label>
-    <input required type="{{ title.field.widget.input_type }}" class="form-control" id="" placeholder="{{ title.label }}" name="{{ title.name }}" />
+    <input required type="{{ title.field.widget.input_type }}" class="form-control" placeholder="{{ title.label }}" name="{{ title.name }}" />
   </div>
   {% endwith %}
   
@@ -17,29 +17,13 @@
     <textarea required id="{{ description.id_for_label }}" class="form-control" placeholder="{{ description.label }}" name="{{ description.name }}"></textarea>
   </div>
   {% endwith %}
-
-  {% with form.type as type %}
-  <div class="form-group">
-    <label for="{{ type.id_for_label }}">{{ type.label }}</label>
-    <input required type="{{ type.field.widget.input_type }}" class="form-control" id="" placeholder="{{ type.label }}" name="{{ type.name }}" />
-  </div>
-  {% endwith %}
   
-  {% with form.total as total %}
-  <div class="form-group">
-    <label for="{{ total.id_for_label }}">{{ total.label }}</label>
-    <input required type="{{ total.field.widget.input_type }}" class="form-control" id="" placeholder="{{ total.label }}" name="{{ total.name }}" />
-  </div>
-  {% endwith %}
-  
-  {% if supertask_pk or objective_pk %}
   {% with form.proportion as proportion %}
   <div class="form-group">
     <label for="{{ proportion.id_for_label }}">{{ proportion.label }}</label>
-    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" id="" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" />
+    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" />
   </div>
   {% endwith %}
-  {% endif %}
 
   <button class="btn btn-primary" type="submit">CREATE</button>
 </form>

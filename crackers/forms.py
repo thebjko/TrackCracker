@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 
-from .models import Task, Objective
+from .models import Task
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -10,9 +10,7 @@ class TaskForm(forms.ModelForm):
         fields = (
             'title',
             'description',
-            'type',
             'proportion',
-            'total',
         )
     
     def clean_proportion(self):
@@ -29,14 +27,3 @@ class TaskForm(forms.ModelForm):
 class TaskFormHelper(forms.Form):
     pass
 
-
-class ObjectiveForm(forms.ModelForm):
-    
-    class Meta:
-        model = Objective
-        fields = (
-            'title',
-            'description',
-            'type',
-            'total',
-        )

@@ -6,4 +6,4 @@ class CrackersConfig(AppConfig):
     name = 'crackers'
 
     def ready(self):
-        from . import signals
+        from . import handlers
