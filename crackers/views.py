@@ -51,6 +51,20 @@ def create(request, supertask_pk=None):
     return render(request, 'crackers/create.html', context)
 
 
+def detail(request, supertask_pk):
+    supertask = get_object_or_404(Task, pk=supertask_pk)
+    context = {
+        'supertask': supertask,
+        'subtasks': supertask.subtasks.filter(supertask=supertask_pk),
+    }
+    trigger = {
+        'change-offcanvas-title': {
+            'title': supertask.title
+        }
+    }
+    return render(request, 'crackers/components/detail.html', context, trigger=trigger)
+
+
 # # create task (*task : subtask right under an objective)
 # def create_task(request, objective_pk):   
 #     if request.method == 'POST':
@@ -91,18 +105,6 @@ def create(request, supertask_pk=None):
 #     return render(request, 'crackers/create.html', context)
 
 
-# def detail(request, objective_pk):
-#     objective = get_object_or_404(Objective, pk=objective_pk)
-#     context = {
-#         'objective': objective,
-#         'tasks': objective.tasks.filter(supertask=None),
-#     }
-#     trigger = {
-#         'change-offcanvas-title': {
-#             'title': context['objective'].title
-#         }
-#     }
-#     return render(request, 'crackers/components/detail.html', context, trigger=trigger)
 
 
 # def task_detail(request, supertask_pk):
