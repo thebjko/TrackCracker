@@ -94,3 +94,18 @@ def update(request, task_pk):
     }
     return render(request, 'crackers/update.html', context)
 
+
+def complete(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    if task.completed:
+        task.completed = False
+        task.save()
+    else:
+        task.completed = True
+        task.save()
+    trigger = {
+        'change-achievement-width': {
+            'width': round(task.achievement*100, 1),
+        },
+    }
+    return HttpResponse(trigger=trigger)
