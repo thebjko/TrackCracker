@@ -33,11 +33,13 @@ class Task(models.Model):
         super().save(*args, **kwargs)
         achievement_reassessment_signal.send(sender=self.__class__, supertask=self.supertask)
 
+
     def delete(self, *args, **kwargs):
         supertask = self.supertask
         result = super().delete(*args, **kwargs)
         achievement_reassessment_signal.send(sender=self.__class__, supertask=supertask)
         return result
+
     
     class Meta:
         db_table = 'task'
