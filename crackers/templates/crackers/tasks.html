@@ -5,7 +5,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
+      {% if objective == supertask %}
       <th scope="col">Objective</th>
+      {% else %}
+      <th scope="col">Task</th>
+      {% endif %}
       <th scope="col">Achievement</th>
       <th scope="col">Completed</th>
       <th scope="col">Buttons</th>
