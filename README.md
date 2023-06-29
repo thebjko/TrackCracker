@@ -42,6 +42,7 @@ Task와 서브태스크 목록을 나타내는 페이지.
 - Navbar에 해당 Objective Title 유지하기, 달성률 보여주기 ✅ → task, subtask 페이지 상단에 구현
 - Achievement → Progress Bar로 구현하기 ✅
 - breadcrumb 구현하기(링크) ✅
+- `Task` 모델 하나만 사용하도록 리팩토링 ✅
 - 완료 체크하기
     - 완료 체크시 Achievement는 1.0이 되지만, 서브태스크들의 Achievement는 그대로 유지한다.
     - Achievement가 1.0이 되면 완료 체크가 된다.

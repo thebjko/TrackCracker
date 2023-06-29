@@ -29,21 +29,21 @@ def tasks(request, supertask_pk):
 
 def create(request, supertask_pk=None):
     if request.method == 'POST':
+        path = request.POST.get('_path')
         form = TaskForm(data=request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             if supertask_pk is not None:
                 task.supertask = get_object_or_404(Task, pk=supertask_pk)
-                redirect_to = redirect('tracks:tasks', supertask_pk)
-            else:
-                redirect_to = redirect('tracks:index')
             task.save()
-            return redirect_to
+            return redirect(path)
     else:
         form = TaskForm()
+        path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
         'title': 'Create Objective',
+        'path': path,
     }
     if supertask_pk:
         context['action'] = reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
@@ -78,15 +78,19 @@ def update(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if request.method == 'PUT':
         data = QueryDict(request.body).dict()
+        path = data.pop('_path')
         form = TaskForm(data=data, instance=task)
         if form.is_valid():
             form.save()
             # detail에서 수정했을때는 supertask로 가야한다.
-            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': task_pk}))
+            # return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': task_pk}))
+            return HTTPResponseHXRedirect(redirect_to=path)
     else:
         form = TaskForm(instance=task)
+        path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
+        'path': path,
     }
     return render(request, 'crackers/update.html', context)
 

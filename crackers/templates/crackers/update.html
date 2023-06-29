@@ -3,7 +3,8 @@
 {% block content %}
 <h1>{{ title }}</h1>
 {% with form.instance as instance %}
-<form hx-put="{% url 'tracks:update' instance.pk %}">
+<form hx-put="{% url 'tracks:update' instance.pk %}" hx-include="[name='_path']">
+  <input type="hidden" name="_path" value={{ path }}>
   {% with form.title as title %}
   <div class="form-group">
     <label for="{{ title.id_for_label }}">{{ title.label }}</label>
