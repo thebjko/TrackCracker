@@ -21,6 +21,10 @@ def reassess_achievement(sender, **kwargs):
                 total=Sum('proportion', output_field=FloatField())
             ).get('total', 1)
             supertask.achievement = weighted_achievement_total / total
+            if supertask.achievement == 1.0:
+                supertask.completed = True
+            else:
+                supertask.completed = False
             supertask.save()   # 여기서 호출된 save 메서드 또한 post_save 신호를 발생시킨다.
         else:
             supertask.achievement = 0.0
