@@ -1,6 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from .signals import custom_signal
 
 class Task(models.Model):
     title = models.CharField('title', max_length=100)
@@ -26,6 +27,18 @@ class Task(models.Model):
             supertask = supertask.supertask
         # return reversed(crumb)   # iterator, not list
         return list(reversed(crumb))
+    
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        custom_signal.send(sender=self.__class__, supertask=self.supertask)
+
+    def delete(self, *args, **kwargs):
+        # 제대로 보내졌다.
+        supertask = self.supertask
+        result = super().delete(*args, **kwargs)
+        custom_signal.send(sender=self.__class__, supertask=supertask)
+        return result
     
     class Meta:
         db_table = 'task'
