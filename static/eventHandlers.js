@@ -7,4 +7,9 @@ document.addEventListener('DOMContentLoaded', (_) => {
     progress.setAttribute('style', `width: ${e.detail.width}%`)
     progress.textContent = e.detail.width + '% Achieved'
   })
+  document.body.addEventListener('change-supertask-achievement-width', (e) => {
+    const progress = document.getElementById(e.detail.identifier)
+    progress.setAttribute('style', `width: ${e.detail.width}%`)
+    progress.textContent = e.detail.width + '% Achieved'
+  })
 })

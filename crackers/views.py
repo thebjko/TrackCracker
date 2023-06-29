@@ -113,15 +113,19 @@ def complete(request, task_pk):
             task.achievement = weighed_achievement_total / total
         else:
             task.achievement = 0.0
-        task.save()
     else:
         task.completed = True
         task.achievement = 1.0
-        task.save()
+    task.save()
     trigger = {
         'change-achievement-width': {
             'identifier': f'task-progress-{task.pk}',
-            'width': round(task.achievement*100, 1),
+            'width': round(task.achievement*100),
         },
     }
+    if task.supertask is not None:
+        trigger['change-supertask-achievement-width'] = {
+            'identifier': f'task-progress-{task.supertask.pk}',
+            'width': round(task.supertask.achievement*100),
+        }
     return HttpResponse(trigger=trigger)
