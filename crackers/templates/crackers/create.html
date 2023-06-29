@@ -3,6 +3,7 @@
 {% block content %}
 <h1>{{ title }}</h1>
 <form action="{{ action }}" method="post">
+  <input type="hidden" name="_path" value={{ path }}>
   {% csrf_token %}
   {% with form.title as title %}
   <div class="form-group">
