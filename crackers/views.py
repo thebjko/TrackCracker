@@ -2,7 +2,7 @@ from django.http import QueryDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, resolve
 
-# from .forms import TaskForm
+from .forms import TaskForm
 from .models import Task
 from .utils import render, HttpResponse, HTTPResponseHXRedirect
 
@@ -15,45 +15,40 @@ def index(request):
     return render(request, 'crackers/index.html', context)
 
 
-def tasks(request, task_pk):
-    tasks = Task.objects.filter(supertask=task_pk)   # pk만 넘겨도 된다.
-    supertask = get_object_or_404(Task, pk=task_pk)
+def tasks(request, supertask_pk):
+    tasks = Task.objects.filter(supertask=supertask_pk)   # pk만 넘겨도 된다.
+    supertask = get_object_or_404(Task, pk=supertask_pk)
     context = {
         'tasks': tasks,
-        'breadcrumb': supertask.breadcrumb(),
-        'base_template': 'crackers/base/_task_base.html',
+        'breadcrumb': supertask.breadcrumb_reversed(),
+        'base_template': 'crackers/base/_task.html',
     }
-    return render(request, 'crackers/task.html', context)
+    return render(request, 'crackers/index.html', context)
 
 
-# def subtasks(request, supertask_pk):
-#     tasks = Task.objects.filter(supertask=supertask_pk)
-#     supertask = get_object_or_404(Task, pk=supertask_pk)
-#     context = {
-#         'tasks': tasks,
-#         'supertask': supertask,
-#         'objective': supertask.objective,
-#         'base_template': 'crackers/base/_subtask_base.html',
-#         'breadcrumb': supertask.breadcrumb(),
-#     }
-#     return render(request, 'crackers/task.html', context)
-
-
-# # create objective
-# def create(request):
-#     if request.method == 'POST':
-#         form = ObjectiveForm(data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('tracks:index')
-#     else:
-#         form = ObjectiveForm()
-#     context = {
-#         'form': form,
-#         'title': 'Create Objective',
-#         'action': reverse_lazy('tracks:create')
-#     }
-#     return render(request, 'crackers/create.html', context)
+def create(request, supertask_pk=None):
+    if request.method == 'POST':
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            if supertask_pk is not None:
+                task.supertask = get_object_or_404(Task, pk=supertask_pk)
+                redirect_to = redirect('tracks:tasks', supertask_pk)
+            else:
+                redirect_to = redirect('tracks:index')
+            task.save()
+            return redirect_to
+    else:
+        form = TaskForm()
+    context = {
+        'form': form,
+        'title': 'Create Objective',
+    }
+    if supertask_pk:
+        context['action'] = reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
+    else:
+        context['action'] = reverse_lazy('tracks:create')
+    return render(request, 'crackers/create.html', context)
 
 
 # # create task (*task : subtask right under an objective)
