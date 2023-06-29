@@ -11,20 +11,5 @@ urlpatterns = [
     path('<int:supertask_pk>/detail/', views.detail, name='detail'),
     path('<int:task_pk>/update/', views.update, name='update'),
     path('<int:task_pk>/delete/', views.delete, name='delete'),
-    # path('<int:task_pk>/update/', views.update, name='update'),
-    # path('<int:task_pk>/delete/', views.delete, name='delete'),
-
-    # path('objective/<int:objective_pk>/update/', views.update, name='update'),   # tasks under objective of pk
-    # path('objective/<int:objective_pk>/delete/', views.delete, name='delete'),
-
-    # path('objective/<int:objective_pk>/', views.tasks, name='tasks'),   # tasks under objective of pk
-    # path('objective/<int:objective_pk>/detail/', views.detail, name='detail'),
-    # path('objective/<int:objective_pk>/create/', views.create_task, name='create_task'),
-    
-    # path('subtasks/<int:supertask_pk>/', views.subtasks, name='subtasks'),   # subtasks under supertask of pk
-    # path('subtasks/<int:supertask_pk>/detail/', views.task_detail, name='task_detail'),
-    # path('subtasks/<int:supertask_pk>/create/', views.create_subtask, name='create_subtask'),    # create subtask under supertask
-
-    # path('task/<int:task_pk>/update/', views.update_task, name='update_task'),
-    # path('task/<int:task_pk>/delete/', views.delete_task, name='delete_task'),
+    path('<int:task_pk>/complete/', views.complete, name='complete'),
 ]

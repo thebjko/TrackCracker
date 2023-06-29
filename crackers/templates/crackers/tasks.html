@@ -1,5 +1,5 @@
 {% extends base_template %}
-
+{% load custom_filters %}
 {% block task_template %}
 <table class="table table-hover">
   <thead>
@@ -29,10 +29,20 @@
       {% endif %}
       <td>
         <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar bg-info text-body" style="width: {{ width }}%">{{ width }}% Achieved</div>
+          <div id="task-progress-{{ task.pk }}" class="progress-bar bg-info text-body" style="width: {{ width }}%">{{ width }}% Achieved</div>
         </div>
       </td>
-      <td><p class="btn btn-sm">{{ task.completed }}(체크박스 또는 hx)</p></td>
+      <td>
+        <div class="form-check d-flex justify-content-center">
+          <input
+            hx-put="{% url 'tracks:complete' task.pk %}"
+            hx-swap="none"
+            hx-trigger="click"
+            class="form-check-input"
+            type="checkbox"
+            id="flexCheckChecked" {% if task.completed %}checked{% endif %} {% if task|all_completed %}disabled{% endif %}>
+        </div>
+      </td>
       <td>
         <a class="btn btn-warning btn-sm m-1" href="{% url 'tracks:update' task.pk %}">UPDATE</a>
         <a class="btn btn-primary btn-sm m-1"

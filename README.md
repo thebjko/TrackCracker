@@ -44,12 +44,17 @@ Task와 서브태스크 목록을 나타내는 페이지.
 - breadcrumb 구현하기(링크) ✅
 - `Task` 모델 하나만 사용하도록 리팩토링 ✅
 - 완료 체크하기
-    - 완료 체크시 Achievement는 1.0이 되지만, 서브태스크들의 Achievement는 그대로 유지한다.
-    - Achievement가 1.0이 되면 완료 체크가 된다.
+    - 완료 체크시 Achievement는 1.0이 되지만, 서브태스크들의 Achievement는 그대로 유지한다. ✅
+    - `completed`가 `True`일 때 `achievement` → `1.0` ✅
+    - `completed`가 `False`일 때 `achievement` → 다시 계산 ✅
+    - Achievement가 1.0이 되면 완료 체크, 내려가면 완료 체크 해제
+        - 처음 생성된 객체에는 수행할 필요 없으니 handler에서 작업한다.
+        - 만약 하위 태스크가 모두 completed라면 supertask의 completed는 disabled
 - Accumulate Proportion 입력할 수 있게 하기
     - FormHelper? 사용
 - detail offcanvas 스타일링
-- 타입별 필터, 완료, 미완
+- 타입별 필터, 완료, 미완 모아보기
 - 오늘의 할일 목록에 추가하기 기능 → 오늘의 할일 페이지
+- 랜딩페이지
 - 소요시간 측정
     - 예상 소요시간 계산하기
