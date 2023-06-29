@@ -1,4 +1,3 @@
-from django.db.models import F, FloatField, Sum
 from django.dispatch import receiver
 
 from .models import Task

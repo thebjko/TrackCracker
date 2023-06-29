@@ -1,7 +1,6 @@
 from django.http import QueryDict
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy, resolve
-from django.db.models import F, FloatField, Sum
+from django.urls import reverse_lazy
 
 from .forms import TaskForm
 from .models import Task
