@@ -12,7 +12,7 @@ def index(request):
         'tasks': tasks,
         'base_template': 'crackers/base/_objective.html',
     }
-    return render(request, 'crackers/index.html', context)
+    return render(request, 'crackers/tasks.html', context)
 
 
 def tasks(request, supertask_pk):
@@ -24,7 +24,7 @@ def tasks(request, supertask_pk):
         'breadcrumb': supertask.breadcrumb(),
         'base_template': 'crackers/base/_task.html',
     }
-    return render(request, 'crackers/index.html', context)
+    return render(request, 'crackers/tasks.html', context)
 
 
 def create(request, supertask_pk=None):
