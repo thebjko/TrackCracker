@@ -19,11 +19,11 @@
       <th scope="row">{{ task.pk }}</th>
       {% if task.subtasks.exists %}
       <td>
-        <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
+        {% comment %} <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button> {% endcomment %}
       </td>
       {% else %}
       <td>
-        <button class="btn btn-sm" hx-get="{% url 'tracks:create_task' task.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
+        <button class="btn btn-sm" hx-get="{% url 'tracks:create_subtask' task.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
           {{ task.title }}
         </button>
       </td>
