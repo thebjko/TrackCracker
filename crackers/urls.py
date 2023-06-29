@@ -6,8 +6,8 @@ app_name = 'tracks'
 urlpatterns = [
     path('', views.index, name='index'),   # all objectives. 이후 로그인 되어있지 않으면 landingpage, 되어있다면 all objectives.
     path('create/', views.create, name='create'),   # create task
-    path('<int:task_pk>/create/', views.create, name='create'),   # create task
-    # path('<int:task_pk>/', views.tasks, name='tasks'),   # subtask list
+    path('<int:supertask_pk>/', views.tasks, name='tasks'),   # subtask list
+    path('<int:supertask_pk>/create/', views.create, name='create_subtask'),   # create subtask
     # path('<int:task_pk>/update/', views.update, name='update'),
     # path('<int:task_pk>/delete/', views.delete, name='delete'),
 
