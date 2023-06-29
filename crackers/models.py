@@ -18,14 +18,14 @@ class Task(models.Model):
     # objective = models.ForeignKey('crackers.Objective', verbose_name='objective', on_delete=models.CASCADE, related_name='tasks')
     # total = models.IntegerField('total', default=10_000)
     
-    def breadcrumb_reversed(self):
+    def breadcrumb(self):
         crumb = [self]
         supertask = self.supertask
         while supertask is not None:
             crumb.append(supertask)
             supertask = supertask.supertask
         # return reversed(crumb)   # iterator, not list
-        return crumb
+        return list(reversed(crumb))
     
     class Meta:
         db_table = 'task'

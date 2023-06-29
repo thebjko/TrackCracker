@@ -32,9 +32,6 @@
     {% if breadcrumb %}
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
-        {% if objective %}
-        <li class="breadcrumb-item"><a href="{% url 'tracks:tasks' objective.pk %}">{{ objective.title }}</a></li>
-        {% endif %}
         {% for crumb in breadcrumb %}
         {% if forloop.last %}
         <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>

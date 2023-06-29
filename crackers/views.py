@@ -20,7 +20,7 @@ def tasks(request, supertask_pk):
     supertask = get_object_or_404(Task, pk=supertask_pk)
     context = {
         'tasks': tasks,
-        'breadcrumb': supertask.breadcrumb_reversed(),
+        'breadcrumb': supertask.breadcrumb(),
         'base_template': 'crackers/base/_task.html',
     }
     return render(request, 'crackers/index.html', context)
