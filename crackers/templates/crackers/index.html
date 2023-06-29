@@ -36,9 +36,10 @@
       <td><p class="btn btn-sm">{{ task.completed }}(체크박스 또는 hx)</p></td>
       <td><p class="btn btn-sm">{{ task.duration }}</p></td>
       <td>
-        {% comment %} <a class="btn btn-primary btn-sm"
+        <a class="btn btn-primary btn-sm"
+          hx-target="body"
           hx-delete="{% url 'tracks:delete' task.pk %}"
-          hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete</a> {% endcomment %}
+          hx-confirm="This will delete all related subtasks.">Delete</a>
       </td>
     </tr>
     {% endfor %}

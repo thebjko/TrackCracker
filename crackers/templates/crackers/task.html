@@ -27,7 +27,7 @@
         </button>
       </td>
       {% endif %}
-      {% comment %} <td><p class="btn btn-sm">{{ task.achievement }}</p></td> {% endcomment %}
+      <td><p class="btn btn-sm">{{ task.achievement }}</p></td>
       <td>
         <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar bg-warning text-body" style="width: {{ width }}%">{{ width }}% Achieved</div>
@@ -37,7 +37,8 @@
       <td><p class="btn btn-sm">{{ task.duration }}</p></td>
       <td>
         <a class="btn btn-primary btn-sm"
-          hx-delete="{% url 'tracks:delete_task' task.pk %}"
+          hx-target="body"
+          hx-delete="{% url 'tracks:delete' task.pk %}"
           hx-confirm="Are you sure to delete this task? This will delete all related subtasks.">Delete</a>
       </td>
     </tr>
