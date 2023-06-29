@@ -1,5 +1,4 @@
 from django.db.models import F, FloatField, Sum
-from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import Task
@@ -8,7 +7,7 @@ from .signals import achievement_reassessment_signal
 
 @receiver(achievement_reassessment_signal, sender=Task)
 def reassess_achievement(sender, **kwargs):
-    supertask = kwargs.pop('supertask', None)
+    supertask = kwargs.get('supertask')
     if supertask is not None and supertask.completed == False:
         if supertask.subtasks.exists():
             # 최상위 Task가 아닌 경우. 완료 표시가 된 경우 1.0으로 유지

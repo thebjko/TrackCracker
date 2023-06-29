@@ -99,7 +99,7 @@ def update(request, task_pk):
 def complete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
-        task.completed = False
+        task.completed = task.supertask.completed = False
         # subtasks로 현재 achievement 측정
         if task.subtasks.exists():
             weighed_achievement_total = task.subtasks.annotate(
