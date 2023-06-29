@@ -22,7 +22,7 @@
       </td>
       {% else %}
       <td>
-        <button class="btn btn-sm" hx-get="{% url 'tracks:create_subtask' task.pk %}" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
+        <button class="btn btn-sm" hx-get="{% url 'tracks:create_subtask' task.pk %}" hx-replace-url="true" hx-target="body" hx-confirm="There's no related subtask. Create one now.">
           {{ task.title }}
         </button>
       </td>
