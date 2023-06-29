@@ -99,7 +99,7 @@ def update(request, task_pk):
 def complete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
-        task.completed = task.supertask.completed = False
+        task.completed = False
         # subtasks로 현재 achievement 측정
         if task.subtasks.exists():
             weighed_achievement_total = task.subtasks.annotate(
@@ -115,17 +115,17 @@ def complete(request, task_pk):
             task.achievement = 0.0
     else:
         task.completed = True
-        task.achievement = 1.0
+        # task.achievement = 1.0
     task.save()
     trigger = {
         'change-achievement-width': {
             'identifier': f'task-progress-{task.pk}',
-            'width': round(task.achievement*100),
+            'width': round(task.pseudo_achievement*100),
         },
     }
     if task.supertask is not None:
         trigger['change-supertask-achievement-width'] = {
             'identifier': f'task-progress-{task.supertask.pk}',
-            'width': round(task.supertask.achievement*100),
+            'width': round(task.supertask.pseudo_achievement*100),
         }
     return HttpResponse(trigger=trigger)

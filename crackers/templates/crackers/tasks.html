@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     {% for task in tasks %}
-    {% widthratio task.achievement 1 100 as width %}
+    {% widthratio task.pseudo_achievement 1 100 as width %}
     <tr>
       <th scope="row">{{ task.pk }}</th>
       {% if task.subtasks.exists %}

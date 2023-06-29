@@ -18,6 +18,17 @@ class Task(models.Model):
     # duration = models.DurationField('duration', null=True, blank=True)
     # total = models.IntegerField('total', default=10_000)
     
+    @property
+    def pseudo_achievement(self):
+        if self.completed == True:
+            return 1.0
+        return self.achievement
+    
+
+    def get_achievement(self):
+        pass
+
+
     def breadcrumb(self):
         crumb = [self]
         supertask = self.supertask
