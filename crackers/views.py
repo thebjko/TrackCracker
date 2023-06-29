@@ -43,7 +43,7 @@ def create(request, supertask_pk=None):
         path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
-        'title': 'Create Objective',
+        'title': 'Create Objective' if supertask_pk is None else 'Create Task',
         'path': path,
     }
     if supertask_pk:
