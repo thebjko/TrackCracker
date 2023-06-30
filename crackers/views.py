@@ -99,6 +99,7 @@ def complete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
         task.completed = False
+        task.supertask.completed = False
     else:
         task.completed = True
     task.achievement = task.assess_achievement()
