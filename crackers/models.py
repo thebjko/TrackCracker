@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F, FloatField, Sum
+from django.db.models import F, FloatField, Sum, Case, When 
 
 from .signals import achievement_reassessment_signal
 
@@ -30,7 +30,11 @@ class Task(models.Model):
     def assess_achievement(self):
         if self.subtasks.exists():
             weighed_achievement_total = self.subtasks.annotate(
-                weighted_achievement=F('proportion') if self.completed == True else F('achievement')*F('proportion')
+                weighted_achievement=Case(
+                    When(completed=True, then=F('proportion')),
+                    default=F('achievement')*F('proportion'),
+                    output_field=FloatField(),
+                )
             ).aggregate(
                 weighed_achievement_total=Sum('weighted_achievement', output_field=FloatField())
             ).get('weighed_achievement_total', 0)
