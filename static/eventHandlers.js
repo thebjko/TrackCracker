@@ -17,4 +17,9 @@ document.addEventListener('DOMContentLoaded', (_) => {
     progress.setAttribute('style', `width: 100%; opacity: .3;`)
     progress.textContent = 'Marked Complete'
   })
+  document.body.addEventListener('task-marked-complete', (e) => {
+    const progress = document.getElementById(e.detail.identifier)
+    progress.setAttribute('style', `width: 100%;`)
+    progress.textContent = 'Marked Complete'
+  })
 })

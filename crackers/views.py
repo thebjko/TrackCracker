@@ -99,17 +99,24 @@ def complete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
         task.completed = False
-        task.supertask.completed = False
+        # task.supertask.completed = False
     else:
         task.completed = True
     task.achievement = task.assess_achievement()
     task.save()
-    trigger = {
-        'change-achievement-width': {
-            'identifier': f'task-progress-{task.pk}',
-            'width': round(task.pseudo_achievement*100),
-        },
-    }
+    if task.marked_complete:
+        trigger = {
+            'task-marked-complete': {
+                'identifier': f'task-progress-{task.pk}',
+            },
+        }
+    else:
+        trigger = {
+            'change-achievement-width': {
+                'identifier': f'task-progress-{task.pk}',
+                'width': round(task.pseudo_achievement*100),
+            },
+        }
     if (supertask := task.supertask) is not None:
         if supertask.marked_complete:
             trigger['supertask-marked-complete'] = {
