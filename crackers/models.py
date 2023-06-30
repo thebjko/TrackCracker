@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F, FloatField, Sum, Case, When 
+from django.db.models import F, FloatField, Sum, Case, When
 
 from .signals import achievement_reassessment_signal
 
@@ -19,18 +19,24 @@ class Task(models.Model):
     # type = models.CharField('type', max_length=50, null=True, blank=True, default=None)
     # duration = models.DurationField('duration', null=True, blank=True)
     # total = models.IntegerField('total', default=10_000)
-    
+
+
     @property
     def pseudo_achievement(self):
-        if self.completed == True:
+        if self.completed:
             return 1.0
         return self.achievement
-    
+
+
+    @property
+    def marked_complete(self):
+        return self.completed and self.subtasks.filter(completed=False, achievement__lt=1.0).exists()
+
 
     def assess_achievement(self):
         if self.subtasks.exists():
             weighed_achievement_total = self.subtasks.annotate(
-                weighted_achievement=Case(
+                weighted_achievement=Case(   # use pseudo_achievement
                     When(completed=True, then=F('proportion')),
                     default=F('achievement')*F('proportion'),
                     output_field=FloatField(),

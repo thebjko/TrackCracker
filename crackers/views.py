@@ -96,22 +96,12 @@ def update(request, task_pk):
 
 
 def complete(request, task_pk):
-    '''
-    completed는 여기서만 변경한다.
-    '''
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
         task.completed = False
-        # subtasks로 현재 achievement 측정
-        # 왜 여기서 achievement를 측정하는거지?
-        # completed → False → pseudo_completed → False (하위 태스크가 모두 completed인 경우 체크박스 disabled이므로)
-        '''
-        completed가 False가 되었을 때 해당 achievement는 유지되고 있는 상태다.
-        True가 되었을 때 애초에 achievement가 1.0이 되지 않기 때문.
-        '''
-        # task.achievement = task.assess_achievement()
     else:
         task.completed = True
+    task.achievement = task.assess_achievement()
     task.save()
     trigger = {
         'change-achievement-width': {
@@ -119,9 +109,14 @@ def complete(request, task_pk):
             'width': round(task.pseudo_achievement*100),
         },
     }
-    if task.supertask is not None:
-        trigger['change-supertask-achievement-width'] = {
-            'identifier': f'task-progress-{task.supertask.pk}',
-            'width': round(task.supertask.pseudo_achievement*100),
-        }
+    if (supertask := task.supertask) is not None:
+        if supertask.marked_complete:
+            trigger['supertask-marked-complete'] = {
+                'identifier': f'task-progress-{supertask.pk}',
+            }
+        else:
+            trigger['change-supertask-achievement-width'] = {
+                'identifier': f'task-progress-{supertask.pk}',
+                'width': round(supertask.pseudo_achievement*100),
+            }
     return HttpResponse(trigger=trigger)
