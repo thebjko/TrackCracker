@@ -98,7 +98,7 @@ def update(request, task_pk):
 def complete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     if task.completed:
-        if not task.subtasks.filter(completed=False).exists():
+        if task.subtasks.exists() and not task.subtasks.filter(completed=False).exists():
             return HTTPResponseHXRedirect(redirect_to=request.META.get('HTTP_REFERER'))
         task.completed = False
         # task.supertask.completed = False
