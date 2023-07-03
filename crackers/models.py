@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F, FloatField, Sum, Case, When
@@ -6,11 +7,12 @@ from .signals import achievement_reassessment_signal
 
 
 class Task(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField('title', max_length=100)
     description = models.TextField('description', null=True, blank=True)
     supertask = models.ForeignKey('self', verbose_name='supertask', on_delete=models.CASCADE, blank=True, null=True, related_name='subtasks')
     completed = models.BooleanField('completed', default=False)
-    marked_complete = models.BooleanField('marked complete', default=False)
+    # marked_complete = models.BooleanField('marked complete', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
