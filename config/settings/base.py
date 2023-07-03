@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'accounts',
     'crackers',
     'taggit',
+    'storages',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',

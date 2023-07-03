@@ -22,7 +22,6 @@ DATABASES['default'] = {
         'sql_mode': 'STRICT_ALL_TABLES'
     },
 }
-INSTALLED_APPS += ['storages']
 
 AWS_STORAGE_BUCKET_NAME = "supertodo-bucket-2023"
 
