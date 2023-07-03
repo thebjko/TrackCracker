@@ -31,10 +31,10 @@
         </ul>
       </div>
       {% if user.is_authenticated %}
-      <div hx-get="{% url 'accounts:logout' %}" hx-target="body" class="btn btn-primary mx-1">로그아웃</div>
+      <div hx-get="{% url 'accounts:logout' %}" hx-target="body" class="btn btn-primary mx-1">Logout</div>
       {% else %}
-      <div hx-get="{% url 'accounts:login' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">로그인</div>
-      <div hx-get="{% url 'accounts:signup' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">회원가입</div>
+      <div hx-get="{% url 'accounts:login' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">Login</div>
+      <div hx-get="{% url 'accounts:signup' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">Signup</div>
       {% endif %}
     </div>
   </nav>
