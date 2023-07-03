@@ -19,7 +19,7 @@
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'tracks:index' %}">SuperTask</a>
+      <a class="navbar-brand" href="{% url 'tracks:index' %}">SuperTodo</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,6 +30,12 @@
           </li>
         </ul>
       </div>
+      {% if user.is_authenticated %}
+      <div hx-get="{% url 'accounts:logout' %}" hx-target="body" class="btn btn-primary mx-1">로그아웃</div>
+      {% else %}
+      <div hx-get="{% url 'accounts:login' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">로그인</div>
+      <div hx-get="{% url 'accounts:signup' %}" hx-target="body" hx-replace-url="true" class="btn btn-primary mx-1">회원가입</div>
+      {% endif %}
     </div>
   </nav>
   <section class="container">
