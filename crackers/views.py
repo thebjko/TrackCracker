@@ -7,12 +7,15 @@ from .models import Task
 from .utils import render, HttpResponse, HTTPResponseHXRedirect
 
 def index(request):
-    tasks = Task.objects.filter(supertask=None)
-    context = {
-        'tasks': tasks,
-        'base_template': 'crackers/base/_objective.html',
-    }
-    return render(request, 'crackers/tasks.html', context)
+    if request.user.is_authenticated:
+        tasks = Task.objects.filter(supertask=None)
+        context = {
+            'tasks': tasks,
+            'base_template': 'crackers/base/_objective.html',
+        }
+        return render(request, 'crackers/tasks.html', context)
+    else:
+        return render(request, 'crackers/landingpage.html')
 
 
 def tasks(request, supertask_pk):
