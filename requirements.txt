@@ -2,6 +2,8 @@ appnope==0.1.3
 asgiref==3.7.2
 asttokens==2.2.1
 backcall==0.2.0
+boto3==1.26.165
+botocore==1.29.165
 decorator==5.1.1
 Django==4.2.2
 django-debug-toolbar==4.1.0
@@ -11,7 +13,9 @@ django-taggit==4.0.0
 executing==1.2.0
 ipython==8.14.0
 jedi==0.18.2
+jmespath==1.0.1
 matplotlib-inline==0.1.6
+mysqlclient==2.2.0
 parso==0.8.3
 pexpect==4.8.0
 pickleshare==0.7.5
@@ -19,8 +23,11 @@ prompt-toolkit==3.0.38
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.15.1
+python-dateutil==2.8.2
+s3transfer==0.6.1
 six==1.16.0
 sqlparse==0.4.4
 stack-data==0.6.2
 traitlets==5.9.0
+urllib3==1.26.16
 wcwidth==0.2.6
