@@ -7,6 +7,6 @@
   <h2>Set up your objective.</h2>
   <h2>Divide and conquer.</h2>
   
-  <p class="btn btn-info" hx-get="{% url 'accounts:signup' %}">Begin now</p>
+  <p class="btn btn-info" hx-get="{% url 'accounts:signup' %}" hx-target="body" hx-replace-url="true">Begin now</p>
 </div>
 {% endblock content %}
