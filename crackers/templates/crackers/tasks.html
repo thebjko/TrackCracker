@@ -14,7 +14,7 @@
   <tbody>
     {% for task in tasks %}
     <tr>
-      <th scope="row">{{ task.pk }}</th>
+      <th scope="row">{{ forloop.counter }}</th>
       {% if task.subtasks.exists %}
       <td>
         <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
