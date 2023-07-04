@@ -5,10 +5,7 @@ import boto3
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
-print(os.getenv('SECRET_KEY'))
-print(os.getenv('DB_NAME'))
-print(os.getenv('USERNAME'))
-print(os.getenv('HOSTNAME'))
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
