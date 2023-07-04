@@ -52,9 +52,9 @@ Task와 서브태스크 목록을 나타내는 페이지.
         - 만약 하위 태스크가 모두 completed라면 supertask의 completed는 disabled
 - Accumulate Proportion 입력할 수 있게 하기
     - FormHelper? 사용
-- detail offcanvas 스타일링
-- 랜딩페이지
-- Account
+- detail offcanvas 스타일링 ✅
+- 랜딩페이지 ✅
+- Account ✅
 - 타입별 필터, 완료, 미완 모아보기
 - 오늘의 할일 목록에 추가하기 기능 → 오늘의 할일 페이지
 - 소요시간 측정
