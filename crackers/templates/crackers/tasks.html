@@ -48,7 +48,8 @@
       <td>
         <a class="btn btn-warning btn-sm m-1" href="{% url 'tracks:update' task.pk %}">UPDATE</a>
         <a class="btn btn-primary btn-sm m-1"
-          hx-target="body"
+          hx-target="this"
+          hx-replace-url="true"
           hx-delete="{% url 'tracks:delete' task.pk %}"
           hx-confirm="This will delete all related subtasks.">Delete</a>
       </td>

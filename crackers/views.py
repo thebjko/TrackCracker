@@ -85,10 +85,14 @@ def detail(request, supertask_pk):
 @login_required
 def delete(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk, user=request.user)
+    supertask = task.supertask
     task.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    if supertask is not None:
+        # return redirect('tracks:tasks', supertask.pk)
+        return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': supertask.pk}))
+    # return redirect('tracks:index')
     # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
-    # return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
+    return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
 
 
 @require_http_methods(['GET', 'PUT'])
