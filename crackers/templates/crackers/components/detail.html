@@ -12,6 +12,8 @@
 <ul>
   {% for task in subtasks %}
   <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
+  {% empty %}
+  <p>There's no related subtask. Create one.</p>
   {% endfor %}
 </ul>
 <a class="btn btn-link" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
