@@ -53,6 +53,8 @@ class Task(models.Model):
             ).get('total', 1)
             return weighed_achievement_total / total
         else:
+            if self.completed:
+                return 1.0
             return 0.0
 
 
