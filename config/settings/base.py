@@ -10,6 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+
+print(os.getenv('DB_NAME'))
+print(os.getenv('USERNAME'))
+print(os.getenv('PASSWORD'))
+print(os.getenv('HOSTNAME'))
+print(os.getenv('RDS_PORT'))
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
