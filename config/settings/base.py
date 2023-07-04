@@ -11,13 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 
-print(os.getenv('DB_NAME'))
-print(os.getenv('USERNAME'))
-print(os.getenv('PASSWORD'))
-print(os.getenv('HOSTNAME'))
-print(os.getenv('RDS_PORT'))
-
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
