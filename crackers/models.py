@@ -40,7 +40,7 @@ class Task(models.Model):
     def assess_achievement(self):
         if self.subtasks.exists():
             weighed_achievement_total = self.subtasks.annotate(
-                weighted_achievement=Case(   # use pseudo_achievement
+                weighted_achievement=Case(   # pseudo_achievement
                     When(completed=True, then=F('proportion')),
                     default=F('achievement')*F('proportion'),
                     output_field=FloatField(),
@@ -52,10 +52,9 @@ class Task(models.Model):
                 total=Sum('proportion', output_field=FloatField())
             ).get('total', 1)
             return weighed_achievement_total / total
-        else:
-            if self.completed:
-                return 1.0
-            return 0.0
+        if self.completed:
+            return 1.0
+        return 0.0
 
 
     def breadcrumb(self):
@@ -70,8 +69,9 @@ class Task(models.Model):
     
 
     def save(self, *args, **kwargs):
+        supertask = self.supertask
         super().save(*args, **kwargs)
-        achievement_reassessment_signal.send(sender=self.__class__, supertask=self.supertask)
+        achievement_reassessment_signal.send(sender=self.__class__, supertask=supertask)
 
 
     def delete(self, *args, **kwargs):
