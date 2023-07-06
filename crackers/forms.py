@@ -17,7 +17,3 @@ class TaskForm(forms.ModelForm):
             'start',
             'accumulative',
         )
-
-
-class TaskFormHelper(forms.Form):
-    pass

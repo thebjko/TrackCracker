@@ -39,8 +39,9 @@ def tasks(request, supertask_pk):
 @login_required
 def create(request, supertask_pk=None):
     if request.method == 'POST':
-        path = request.POST.get('_path')
-        form = TaskForm(data=request.POST)
+        data = request.POST
+        path = data.get('_path')
+        form = TaskForm(data=data)
         if form.is_valid():
             task = form.save(commit=False)
             if supertask_pk is not None:
@@ -53,6 +54,7 @@ def create(request, supertask_pk=None):
         path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
+        'supertask_pk': supertask_pk,
         'title': 'Create Objective' if supertask_pk is None else 'Create Task',
         'path': path,
     }
