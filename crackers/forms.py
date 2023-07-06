@@ -1,31 +1,26 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from django.forms.utils import ErrorList
 
 from .models import Task
 
 class TaskForm(forms.ModelForm):
-    # accumulative = forms.CheckboxInput(widge)
+    proportion = forms.IntegerField(required=True, label='비중')
+    description = forms.CharField(required=False, label='설명')
+    title = forms.CharField(required=True, label='태스크 제목')
+    accumulative = forms.BooleanField(required=True, label=' 👈 서브태스크의 비중을 누적으로 입력하기 위해 체크하세요', widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
+
     class Meta:
         model = Task
         fields = (
             'title',
             'description',
             'proportion',
-            # 'accumulative',
+            'start',
+            'accumulative',
         )
-    
-    # def clean_proportion(self):
-    #     proportion = self.cleaned_data.get('proportion')
-    #     supertask = self.cleaned_data.get('supertask')
-    #     if supertask is None and proportion is None:
-    #         return 10_000
-    #     elif supertask is not None and proportion is None:
-    #         self._errors['proportion'] = ErrorList(["Proportion is required when supertask is not None."])
-    #         raise ValidationError("Proportion is required when supertask is not None.")
-    #     return proportion
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+    
     
 class TaskFormHelper(forms.Form):
     pass
-
