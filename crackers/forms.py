@@ -18,9 +18,6 @@ class TaskForm(forms.ModelForm):
             'accumulative',
         )
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-    
-    
+
 class TaskFormHelper(forms.Form):
     pass
