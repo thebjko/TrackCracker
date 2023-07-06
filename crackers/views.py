@@ -39,8 +39,9 @@ def tasks(request, supertask_pk):
 @login_required
 def create(request, supertask_pk=None):
     if request.method == 'POST':
-        path = request.POST.get('_path')
-        form = TaskForm(data=request.POST)
+        data = request.POST
+        path = data.get('_path')
+        form = TaskForm(data=data)
         if form.is_valid():
             task = form.save(commit=False)
             if supertask_pk is not None:
@@ -57,6 +58,7 @@ def create(request, supertask_pk=None):
         'path': path,
     }
     if supertask_pk:
+        context['supertask'] = get_object_or_404(Task, pk=supertask_pk)
         context['action'] = reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
     else:
         context['action'] = reverse_lazy('tracks:create')
