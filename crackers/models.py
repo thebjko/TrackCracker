@@ -44,7 +44,7 @@ class Task(models.Model):
                 subquery = Subquery(
                     self.subtasks.order_by('-proportion').filter(proportion__lte=OuterRef('proportion')).exclude(pk=OuterRef('pk')).annotate(last=Max('proportion', output_field=FloatField())).values('last')[:1]
                 )
-                subtasks = subtasks.annotate(last=subquery).annotate(adjusted_weight=F('proportion')-Coalesce(F('last'), 0.0))
+                subtasks = subtasks.annotate(last=subquery).annotate(adjusted_weight=F('proportion')-Coalesce('last', 0.0))
                 reference = F('adjusted_weight')
                 proportion_total = Max('proportion', output_field=FloatField())
             weighted_achievement_total = subtasks.annotate(
