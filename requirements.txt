@@ -16,6 +16,7 @@ gunicorn==20.1.0
 ipython==8.14.0
 jedi==0.18.2
 jmespath==1.0.1
+Markdown==3.4.3
 matplotlib-inline==0.1.6
 mysqlclient==2.2.0
 parso==0.8.3
