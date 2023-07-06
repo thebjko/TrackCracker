@@ -18,8 +18,7 @@ def index(request):
             'base_template': 'crackers/base/_objective.html',
         }
         return render(request, 'crackers/tasks.html', context)
-    else:
-        return render(request, 'crackers/landingpage.html')
+    return render(request, 'crackers/landingpage.html')
 
 
 @require_GET
