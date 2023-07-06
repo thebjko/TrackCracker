@@ -22,7 +22,7 @@
   {% with form.proportion as proportion %}
   <div class="form-group">
     <label for="{{ proportion.id_for_label }}">{{ proportion.label }} </label>
-    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value={{ instance.proportion }}/>
+    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value="{{ instance.proportion }}"/>
   </div>
   {% endwith %}
 
