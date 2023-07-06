@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F, FloatField, Sum, Case, When, Max, Window, Subquery, OuterRef, Exists
-from django.db.models.functions import Lag, Lead, Coalesce
+from django.db.models import F, FloatField, Sum, Case, When, Max, Subquery, OuterRef
+from django.db.models.functions import Coalesce
 
 from .signals import achievement_reassessment_signal
 
