@@ -21,6 +21,9 @@ class Task(models.Model):
     achievement = models.FloatField('achievement', default=0, validators=[MaxValueValidator(1.0), MinValueValidator(0.0)])
     accumulative = models.BooleanField('accumulative', default=False)   # 서브태스크 생성시 proportion을 누적합으로 입력할 수 있게
     
+    # if accumulative, where to start?
+    start = models.IntegerField(default=0)
+    
     # type = models.CharField('type', max_length=50, null=True, blank=True, default=None)
     # duration = models.DurationField('duration', null=True, blank=True)
     # total = models.IntegerField('total', default=10_000)
@@ -44,7 +47,7 @@ class Task(models.Model):
                 subquery = Subquery(
                     self.subtasks.order_by('-proportion').filter(proportion__lte=OuterRef('proportion')).exclude(pk=OuterRef('pk')).annotate(last=Max('proportion', output_field=FloatField())).values('last')[:1]
                 )
-                subtasks = subtasks.annotate(last=subquery).annotate(adjusted_weight=F('proportion')-Coalesce('last', 0.0))
+                subtasks = subtasks.annotate(last=subquery).annotate(adjusted_weight=F('proportion')-Coalesce('last', self.start, output_field=FloatField()))
                 reference = F('adjusted_weight')
                 proportion_total = Max('proportion', output_field=FloatField())
             weighted_achievement_total = subtasks.annotate(

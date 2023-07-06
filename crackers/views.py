@@ -2,7 +2,7 @@ from django.http import QueryDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from django.views.decorators.http import require_http_methods, require_GET
 
 from .forms import TaskForm
 from .models import Task

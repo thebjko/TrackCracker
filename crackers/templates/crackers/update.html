@@ -8,7 +8,7 @@
   {% with form.title as title %}
   <div class="form-group">
     <label for="{{ title.id_for_label }}">{{ title.label }}</label>
-    <input required type="{{ title.field.widget.input_type }}" class="form-control" value="{{ instance.title }}" placeholder="{{ title.label }}" name="{{ title.name }}" />
+    <input autofocus required type="{{ title.field.widget.input_type }}" class="form-control" value="{{ instance.title }}" placeholder="{{ title.label }}" name="{{ title.name }}" />
   </div>
   {% endwith %}
   
@@ -18,29 +18,44 @@
     <textarea id="{{ description.id_for_label }}" class="form-control" placeholder="{{ description.label }}" name="{{ description.name }}">{{ instance.description }}</textarea>
   </div>
   {% endwith %}
-  
-  {% comment %} {% with form.type as type %}
-  <div class="form-group">
-    <label for="{{ type.id_for_label }}">{{ type.label }}</label>
-    <input required type="{{ type.field.widget.input_type }}" class="form-control" value="{{ instance.type }}" placeholder="{{ type.label }}" name="{{ type.name }}" />
-  </div>
-  {% endwith %} {% endcomment %}
-  
-  {% comment %} {% with form.total as total %}
-  <div class="form-group">
-    <label for="{{ total.id_for_label }}">{{ total.label }}</label>
-    <input required type="{{ total.field.widget.input_type }}" class="form-control" value="{{ instance.total }}" placeholder="{{ total.label }}" name="{{ total.name }}" />
-  </div>
-  {% endwith %} {% endcomment %}
-  
+
   {% with form.proportion as proportion %}
   <div class="form-group">
-    <label for="{{ proportion.id_for_label }}">{{ proportion.label }}</label>
-    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" value="{{ instance.proportion }}" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" />
+    <label for="{{ proportion.id_for_label }}">{{ proportion.label }} </label>
+    <input required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value={{ instance.proportion }}/>
+  </div>
+  {% endwith %}
+
+  {% with form.accumulative as accumulative %}
+  <div class="form-check">
+    <label class="form-check-label" for="{{ accumulative.id_for_label }}">{{ accumulative.label }} </label>
+    <input class="form-check-input" type="{{ accumulative.field.widget.input_type }}" name="{{ accumulative.name }}" id="{{ accumulative.id_for_label }}" {% if instance.accumulative %}checked{% endif %}>
+    {% comment %} <p class="my-1 d-inline-block"> 👈 서브태스크의 비중을 누적으로 입력하기 위해 체크하세요.</p> {% endcomment %}
+    <p class="my-1">체크하시면, 예를 들어, 책의 진행률을 입력할 때, 이전 챕터의 페이지를 뺄 필요 없이 그대로 입력하실 수 있습니다.</p>
+    <p class="my-1 mb-3">ex. 챕터 1 → 35pg까지, 챕터 2 → 60pg까지인 경우, 챕터 1에 35, 챕터 2에 25를 입력할 필요 없이 그대로 35, 60으로 입력가능.</p>
+  </div>
+  {% endwith %}
+  
+  {% with form.start as start %}
+  {% if instance.accumulative %}
+  <div id="{{ start.id_for_label }}" class="form-group">
+  {% else %}
+  <div id="{{ start.id_for_label }}" class="form-group d-none">
+  {% endif %}
+    <label for="{{ start.id_for_label }}">{{ start.label }} 👈 서브태스크의 비중을 누적으로 입력하는 경우, 시작점을 입력할 수 있습니다.</label>
+    <input required type="{{ start.field.widget.input_type }}" class="form-control" placeholder="{{ start.label }}" name="{{ start.name }}" value="{{ instance.start }}" />
+    <p class="my-1 mb-3">예를 들어, 36페이지부터 시작하는 챕터 2의 서브태스크를 만들 때, 시작점을 36으로 입력하시면 40페이지까지인 섹션 2.1, 50페이지까지인 2.2, 60페이지까지인 2.3의 비중을 계산할 필요 없이 그대로 입력하실 수 있습니다.</p>
   </div>
   {% endwith %}
 
   <button class="btn btn-primary" type="submit">UPDATE</button>
 </form>
 {% endwith %}
+<script>
+  const accumulative = document.getElementById('{{ form.accumulative.id_for_label }}')
+  const start = document.getElementById('{{ form.start.id_for_label }}')
+  accumulative.addEventListener('click', (e) => {
+    start.classList.toggle('d-none')
+  })
+</script>
 {% endblock content %}
