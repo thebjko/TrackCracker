@@ -4,7 +4,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      {% comment %} <th scope="col">#</th> {% endcomment %}
       <th scope="col">Task</th>
       <th scope="col">Achievement</th>
       <th scope="col">Completed</th>
@@ -14,7 +14,7 @@
   <tbody>
     {% for task in tasks %}
     <tr>
-      <th scope="row">{{ forloop.counter }}</th>
+      {% comment %} <th scope="row">{{ forloop.counter }}</th> {% endcomment %}
       <td>
         <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
       </td>
@@ -49,11 +49,10 @@
     </tr>
     {% empty %}
     <tr class="pointer">
-      {% if supertask %}
-      <td colspan="5" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</td>
-      {% else %}
-      <td colspan="5" hx-get="{% url 'tracks:create' %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</td>
-      {% endif %}
+      <td colspan="4" 
+        hx-get="{% if supertask %}{% url 'tracks:create_subtask' supertask.pk %}{% else %}{% url 'tracks:create' %}{% endif %}"
+        hx-replace-url="true"
+        hx-target="body">There's no related subtask. Create one.</td>
     </tr>
     {% endfor %}
   </tbody>
