@@ -8,7 +8,7 @@
   {% with form.title as title %}
   <div class="form-group">
     <label for="{{ title.id_for_label }}">{{ title.label }}</label>
-    <input required type="{{ title.field.widget.input_type }}" class="form-control" value="{{ instance.title }}" placeholder="{{ title.label }}" name="{{ title.name }}" />
+    <input autofocus required type="{{ title.field.widget.input_type }}" class="form-control" value="{{ instance.title }}" placeholder="{{ title.label }}" name="{{ title.name }}" />
   </div>
   {% endwith %}
   
