@@ -21,7 +21,7 @@
   
   {% with form.proportion as proportion %}
   <label for="{{ proportion.id_for_label }}">{{ proportion.label }}</label>
-  {% if supertask_pk %}
+  {% if supertask and supertask.accumulative %}
   <p class="my-1 mb-0 text-danger">누적값으로 입력중입니다. 누적값 입력을 원하지 않으시면 상위태스크에서 누적값 입력 여부를 해제하세요.</p>
   {% endif %}
   <div class="input-group mt-0 mb-3">

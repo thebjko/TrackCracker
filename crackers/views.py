@@ -54,11 +54,11 @@ def create(request, supertask_pk=None):
         path = request.META.get('HTTP_REFERER')
     context = {
         'form': form,
-        'supertask_pk': supertask_pk,
         'title': 'Create Objective' if supertask_pk is None else 'Create Task',
         'path': path,
     }
     if supertask_pk:
+        context['supertask'] = get_object_or_404(Task, pk=supertask_pk)
         context['action'] = reverse_lazy('tracks:create_subtask', kwargs={'supertask_pk': supertask_pk})
     else:
         context['action'] = reverse_lazy('tracks:create')
