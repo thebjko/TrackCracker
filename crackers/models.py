@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F, FloatField, Sum, Case, When, Max, Window, Subquery, OuterRef
-from django.db.models.functions import Lag, Lead
+from django.db.models import F, FloatField, Sum, Case, When, Max, Window, Subquery, OuterRef, Exists
+from django.db.models.functions import Lag, Lead, Coalesce
 
 from .signals import achievement_reassessment_signal
 
@@ -38,36 +38,19 @@ class Task(models.Model):
     def assess_achievement(self):
         if self.subtasks.exists():
             subtasks = self.subtasks.order_by('proportion')
-            proportion = F('proportion')
+            reference = F('proportion')
             proportion_total = Sum('proportion', output_field=FloatField())
             if self.accumulative:
-                subtasks = subtasks.annotate(lag=Window(
-                    expression=Lag('proportion', default=0),
-                    order_by=F('proportion').asc()
-                )).annotate(output=F('proportion')-F('lag'))
-                # print(subtasks)
-                for i in subtasks:
-                    print(i.pk, i.lag, i.output)   # 이건데. 여긴 되는데 왜  F('output')는 안되지?
                 subquery = Subquery(
-                    subtasks.annotate(
-                        lag=F('proportion') - Window(
-                            expression=Lag('proportion', default=0),
-                            order_by=F('proportion').asc(),
-                        )
-                    ).filter(pk=OuterRef('pk')).values('lag')
+                    self.subtasks.order_by('-proportion').filter(proportion__lte=OuterRef('proportion')).exclude(pk=OuterRef('pk')).annotate(last=Max('proportion', output_field=FloatField())).values('last')[:1]
                 )
-                print(subquery)
-                subtasks = subtasks.annotate(hello=subquery)
-                proportion = F('hello')
-                print(subtasks.query)
-                for i in subtasks:
-                    print(i.proportion, i.hello)
-
+                subtasks = subtasks.annotate(last=subquery).annotate(adjusted_weight=F('proportion')-Coalesce(F('last'), 0.0))
+                reference = F('adjusted_weight')
                 proportion_total = Max('proportion', output_field=FloatField())
             weighted_achievement_total = subtasks.annotate(
                 weighted_achievement=Case(   # pseudo_achievement
-                    When(completed=True, then=proportion),
-                    default=F('achievement')*proportion,
+                    When(completed=True, then=reference),
+                    default=F('achievement')*reference,
                     output_field=FloatField(),
                 )
             ).values('weighted_achievement').aggregate(
@@ -80,7 +63,6 @@ class Task(models.Model):
         if self.completed:
             return 1.0
         return 0.0
-
 
     def breadcrumb(self):
         crumb = [self]
