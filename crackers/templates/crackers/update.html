@@ -6,22 +6,25 @@
 <form hx-put="{% url 'tracks:update' instance.pk %}" hx-include="[name='_path']">
   <input type="hidden" name="_path" value={{ path }}>
   {% with form.title as title %}
-  <div class="form-group">
+  <div class="form-group my-3">
     <label for="{{ title.id_for_label }}">{{ title.label }}</label>
     <input autofocus required type="{{ title.field.widget.input_type }}" class="form-control" value="{{ instance.title }}" placeholder="{{ title.label }}" name="{{ title.name }}" />
   </div>
   {% endwith %}
   
   {% with form.description as description %}
-  <div class="form-group">
+  <div class="form-group my-3">
     <label for="{{ description.id_for_label }}">{{ description.label }}</label>
     <textarea id="{{ description.id_for_label }}" class="form-control" placeholder="{{ description.label }}" name="{{ description.name }}">{{ instance.description }}</textarea>
   </div>
   {% endwith %}
 
   {% with form.proportion as proportion %}
-  <div class="form-group">
+  <div class="form-group my-3">
     <label for="{{ proportion.id_for_label }}">{{ proportion.label }} </label>
+    {% if form.instance.supertask and form.instance.supertask.accumulative %}
+    <p class="my-1 text-danger">누적값으로 입력중입니다. 누적값 입력을 원하지 않으시면 상위태스크에서 누적값 입력 여부를 해제하세요.</p>
+    {% endif %}
     <input required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value="{{ instance.proportion }}"/>
   </div>
   {% endwith %}
@@ -38,9 +41,9 @@
   
   {% with form.start as start %}
   {% if instance.accumulative %}
-  <div id="{{ start.id_for_label }}" class="form-group">
+  <div id="{{ start.id_for_label }}" class="form-group my-3">
   {% else %}
-  <div id="{{ start.id_for_label }}" class="form-group d-none">
+  <div id="{{ start.id_for_label }}" class="form-group my-3 d-none">
   {% endif %}
     <label for="{{ start.id_for_label }}">{{ start.label }} 👈 서브태스크의 비중을 누적으로 입력하는 경우, 시작점을 입력할 수 있습니다.</label>
     <input required type="{{ start.field.widget.input_type }}" class="form-control" placeholder="{{ start.label }}" name="{{ start.name }}" value="{{ instance.start }}" />
