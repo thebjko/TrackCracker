@@ -62,9 +62,11 @@
     let inputValue = Number(proportionInput.value)
     let convertedValue = 0
     let power = 0
+    let flag = true
     while (inputValue) {
       const mod = inputValue % 100
       if (mod >= 60) {
+        flag = false
         alert('올바른 60진수를 입력하세요.\nex. 5시간 15분 23초 → 51523')
         break
       }
@@ -72,7 +74,9 @@
       inputValue = Math.floor(inputValue/100)
       power ++
     }
-    proportionInput.value = convertedValue
+    if (flag) {
+      proportionInput.value = convertedValue
+    }
   })
 </script>
 {% endblock content %}
