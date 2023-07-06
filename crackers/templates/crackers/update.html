@@ -25,8 +25,8 @@
   <p class="my-1 mb-0 text-danger">누적값으로 입력중입니다. 누적값 입력을 원하지 않으시면 상위태스크에서 누적값 입력 여부를 해제하세요.</p>
   {% endif %}
   <div class="input-group mt-0 mb-3">
-    <input required type="{{ proportion.field.widget.input_type }}" id="{{ proportion.id_for_label }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value="{{ instance.proportion }}" />
-    <button class="btn btn-outline-primary" type="button" id="sexagesimal-to-decimal-btn">60진수를 10진수로 변환하기</button>
+    <input id="{{ proportion.id_for_label }}" required type="{{ proportion.field.widget.input_type }}" class="form-control" placeholder="{{ proportion.label }}" name="{{ proportion.name }}" value="{{ instance.proportion }}" />
+    <button id="sexagesimal-to-decimal-btn-proportion" class="btn btn-outline-primary" type="button" data-input-id="{{ proportion.id_for_label }}">60진수를 10진수로 변환하기</button>
   </div>
   {% endwith %}
 
@@ -34,17 +34,20 @@
   {% with form.accumulative as accumulative %}
   <div class="form-check">
     <label class="form-check-label" for="{{ accumulative.id_for_label }}">{{ accumulative.label }} </label>
-    <input class="form-check-input" type="{{ accumulative.field.widget.input_type }}" name="{{ accumulative.name }}" id="{{ accumulative.id_for_label }}" {% if instance.accumulative %}checked{% endif %}>
+    <input id="{{ accumulative.id_for_label }}" class="form-check-input" type="{{ accumulative.field.widget.input_type }}" name="{{ accumulative.name }}" {% if instance.accumulative %}checked{% endif %}>
     <p class="my-1">체크하시면, 예를 들어, 책의 진행률을 입력할 때, 이전 챕터의 페이지를 뺄 필요 없이 그대로 입력하실 수 있습니다.</p>
     <p class="my-1 mb-3">ex. 챕터 1 → 35pg까지, 챕터 2 → 60pg까지인 경우, 챕터 1에 35, 챕터 2에 25를 입력할 필요 없이 그대로 35, 60으로 입력가능.</p>
   </div>
   {% endwith %}
   
   {% with form.start as start %}
-  <div id="{{ start.id_for_label }}" class="form-group my-3{% if not instance.accumulative %} d-none{% endif %}">
+  <div id="div-{{ start.id_for_label }}" class="mb-3 mt-0{% if not instance.accumulative %} d-none{% endif %}">
     <label for="{{ start.id_for_label }}">{{ start.label }} 👈 서브태스크의 비중을 누적으로 입력하는 경우, 시작점을 입력할 수 있습니다.</label>
-    <input required type="{{ start.field.widget.input_type }}" class="form-control" placeholder="{{ start.label }}" name="{{ start.name }}" value="{% if instance.accumulative %}{{ instance.start }}{% else %}0{% endif %}" />
     <p class="my-1 mb-3">예를 들어, 36페이지부터 시작하는 챕터 2의 서브태스크를 만들 때, 시작점을 36으로 입력하시면 40페이지까지인 섹션 2.1, 50페이지까지인 2.2, 60페이지까지인 2.3의 비중을 계산할 필요 없이 그대로 입력하실 수 있습니다.</p>
+    <div class="input-group">
+      <input id="{{ start.id_for_label }}" required type="{{ start.field.widget.input_type }}" class="form-control" placeholder="{{ start.label }}" name="{{ start.name }}" value="{% if instance.accumulative %}{{ instance.start }}{% else %}0{% endif %}" />
+      <button id="sexagesimal-to-decimal-btn-start" class="btn btn-outline-primary" type="button" data-input-id="{{ start.id_for_label }}">60진수를 10진수로 변환하기</button>
+    </div>
   </div>
   {% endwith %}
 
@@ -53,31 +56,35 @@
 {% endwith %}
 <script>
   const accumulative = document.getElementById('{{ form.accumulative.id_for_label }}')
-  const start = document.getElementById('{{ form.start.id_for_label }}')
+  const start = document.getElementById('div-{{ form.start.id_for_label }}')
   accumulative.addEventListener('click', (e) => {
     start.classList.toggle('d-none')
   })
-  const converterBtn = document.getElementById('sexagesimal-to-decimal-btn')
-  converterBtn.addEventListener('click', (e) => {
-    const proportionInput = document.getElementById('{{ form.proportion.id_for_label }}')
-    let inputValue = Number(proportionInput.value)
-    let convertedValue = 0
-    let power = 0
-    let flag = true
-    while (inputValue) {
-      const mod = inputValue % 100
-      if (mod >= 60) {
-        flag = false
-        alert('올바른 60진수를 입력하세요.\nex. 5시간 15분 23초 → 51523')
-        break
+  const converterBtns = document.querySelectorAll('[id^=sexagesimal-to-decimal-btn]')
+  converterBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const sexagesimalInput = document.querySelector(`input#${btn.dataset.inputId}`)
+      let inputValue = Number(sexagesimalInput.value)
+      let convertedValue = 0
+      let power = 0
+      let flag = true
+      while (inputValue) {
+        const mod = inputValue % 100
+        if (mod >= 60) {
+          flag = false
+          alert('올바른 60진수를 입력하세요.\nex. 5시간 15분 23초 → 51523')
+          break
+        }
+        convertedValue += mod * Math.pow(60, power)
+        inputValue = Math.floor(inputValue/100)
+        power ++
       }
-      convertedValue += mod * Math.pow(60, power)
-      inputValue = Math.floor(inputValue/100)
-      power ++
-    }
-    if (flag) {
-      proportionInput.value = convertedValue
-    }
+      if (flag) {
+        const temp = sexagesimalInput.value
+        sexagesimalInput.value = convertedValue
+        alert(`${temp}에서 ${convertedValue}로 변경되었습니다.`)
+      }
+    })
   })
 </script>
 {% endblock content %}
