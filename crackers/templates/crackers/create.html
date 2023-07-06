@@ -40,7 +40,7 @@
   {% endwith %}
   
   {% with form.start as start %}
-  <div id="{{ start.id_for_label }}" class="d-none mb-3 mt-0">
+  <div id="div-{{ start.id_for_label }}" class="d-none mb-3 mt-0">
     <label for="{{ start.id_for_label }}">{{ start.label }} 👈 서브태스크의 비중을 누적으로 입력하는 경우, 시작점을 입력할 수 있습니다.</label>
     <p class="my-1 mb-3">예를 들어, 36페이지부터 시작하는 챕터 2의 서브태스크를 만들 때, 시작점을 36으로 입력하시면 40페이지까지인 섹션 2.1, 50페이지까지인 2.2, 60페이지까지인 2.3의 비중을 계산할 필요 없이 그대로 입력하실 수 있습니다.</p>
     <div class="input-group">
@@ -49,13 +49,12 @@
     </div>
   </div>
   {% endwith %}
-  {{ helper.as_div }}
 
   <button class="btn btn-primary" type="submit">CREATE</button>
 </form>
 <script>
   const accumulative = document.getElementById('{{ form.accumulative.id_for_label }}')
-  const start = document.getElementById('{{ form.start.id_for_label }}')
+  const start = document.getElementById('div-{{ form.start.id_for_label }}')
   accumulative.addEventListener('click', (e) => {
     start.classList.toggle('d-none')
   })
