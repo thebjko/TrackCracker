@@ -77,7 +77,7 @@ def detail(request, supertask_pk):
         trigger = {
             'change-detail-btn': {
                 'btnId': f'detail-btn-for-{supertask.pk}',
-                'outerHTML': loader.render_to_string('crackers/components/detail_btn.html', {'task': supertask}, request)
+                'outerHTML': loader.render_to_string('crackers/components/detail_btn.html', {'supertask': supertask}, request)
             }
         }
         return render(request, 'crackers/components/detail.html', context, trigger=trigger)

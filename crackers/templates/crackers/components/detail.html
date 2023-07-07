@@ -12,18 +12,22 @@
       </div>
       <br>
       {# pagination #}
-      <h6>Task List</h6>
-      <ul>
-        {% for task in subtasks %}
-        <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
-        {% empty %}
-        <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
-        {% endfor %}
-      </ul>
-      <a class="btn btn-link" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
-      <a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
-      <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
-      <a class="btn btn-link"
+      <div>
+        <h6>Subtask List</h6>
+        <div class="d-flex justify-content-center">
+          <ul class="text-start">
+            {% for task in subtasks %}
+            <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
+            {% empty %}
+            <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <a class="btn btn-link btn-sm" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
+      <a class="btn btn-link btn-sm" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
+      <a class="btn btn-link btn-sm" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
+      <a class="btn btn-link btn-sm"
         hx-delete="{% url 'tracks:delete' supertask.pk %}"
         hx-target="body"
         hx-confirm="This will delete all related subtasks.">Delete Task</a>
