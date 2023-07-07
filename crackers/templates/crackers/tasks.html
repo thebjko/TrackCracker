@@ -16,7 +16,7 @@
     {% for task in tasks %}
     <tr id="table-row-{{ task.pk }}">
       <td>
-        <a class="btn btn-sm justify-content-center" href="{% url 'tracks:tasks task.pk %}">
+        <a class="btn btn-sm justify-content-center" href="{% url 'tracks:tasks' task.pk %}">
           {{ task.title }}
         </a>
       </td>
