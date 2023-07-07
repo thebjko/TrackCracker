@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <h1>{{ title }}</h1>
 {% with form.instance as instance %}
@@ -60,7 +60,7 @@
   accumulative.addEventListener('click', (e) => {
     start.classList.toggle('d-none')
   })
-  const converterBtns = document.querySelectorAll('[id^=sexagesimal-to-decimal-btn]')
+  {% comment %} const converterBtns = document.querySelectorAll('[id^=sexagesimal-to-decimal-btn]')
   converterBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const sexagesimalInput = document.querySelector(`input#${btn.dataset.inputId}`)
@@ -85,6 +85,7 @@
         alert(`${temp}에서 ${convertedValue}로 변경되었습니다.`)
       }
     })
-  })
+  }) {% endcomment %}
 </script>
+<script src="{% static 'crackers/sexagesimalConverter.js' %}"></script>
 {% endblock content %}
