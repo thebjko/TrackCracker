@@ -2,6 +2,9 @@
 <tr id="detail-row-{{ supertask.pk }}">
   <td colspan="4">
     <div>
+      <div class="my-3 p-3">
+        <h1>{{ supertask.title }}</h1>
+      </div>
       <div class="card">
         <div class="card-header">
           Description
@@ -12,12 +15,16 @@
       </div>
       <br>
       {# pagination #}
-      <div>
-        <h5>Subtask List</h5>
-        <div class="d-flex justify-content-center">
-          <ul id="subtasks-for-{{ supertask.pk }}" class="text-start">
+      <div class="mx-3">
+        <h5>서브태스크</h5>
+        <div class="justify-content-center">
+          {% comment %} <ul id="subtasks-for-{{ supertask.pk }}"> {% endcomment %}
+          <table class="table table-hover">
+            <tbody id="subtasks-for-{{ supertask.pk }}">
             {% include 'crackers/components/subtasks.html' %}
-          </ul>
+            </tbody>
+          </table>
+          {% comment %} </ul> {% endcomment %}
         </div>
       </div>
       <nav aria-label="pagination">
