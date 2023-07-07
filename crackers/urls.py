@@ -12,4 +12,5 @@ urlpatterns = [
     path('<int:task_pk>/update/', views.update, name='update'),
     path('<int:task_pk>/delete/', views.delete, name='delete'),
     path('<int:task_pk>/complete/', views.complete, name='complete'),
+    path('<int:supertask_pk>/detail_paginator/', views.detail_paginator, name='detail_paginator'),
 ]
