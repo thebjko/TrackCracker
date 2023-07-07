@@ -1,0 +1,5 @@
+{% for task in page_obj %}
+<li><span class="fs-4" hx-get="{% url 'tracks:tasks' task.pk %}">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
+{% empty %}
+<p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
+{% endfor %}

@@ -13,17 +13,18 @@
       <br>
       {# pagination #}
       <div>
-        <h6>Subtask List</h6>
+        <h5>Subtask List</h5>
         <div class="d-flex justify-content-center">
-          <ul class="text-start">
-            {% for task in subtasks %}
-            <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
-            {% empty %}
-            <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
-            {% endfor %}
+          <ul id="subtasks-for-{{ supertask.pk }}" class="text-start">
+            {% include 'crackers/components/subtasks.html' %}
           </ul>
         </div>
       </div>
+      <nav aria-label="pagination">
+        <ul id="paginator-{{ supertask.pk }}" class="pagination pagination-sm justify-content-center">
+          {% include 'crackers/components/paginator.html' %}
+        </ul>
+      </nav>
       <a class="btn btn-link btn-sm" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
       <a class="btn btn-link btn-sm" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
       <a class="btn btn-link btn-sm" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>

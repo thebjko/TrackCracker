@@ -4,6 +4,7 @@ from django.template import loader
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_GET
+from django.core.paginator import Paginator  
 
 from .forms import TaskForm
 from .models import Task
@@ -70,8 +71,12 @@ def create(request, supertask_pk=None):
 def detail(request, supertask_pk):
     if request.user.is_authenticated:
         supertask = get_object_or_404(Task, pk=supertask_pk, user=request.user)
+        paginator = Paginator(supertask.subtasks.order_by('pk'), 5)
+        page = request.GET.get('page', '1')
+        page_obj = paginator.get_page(page)
         context = {
             'supertask': supertask,
+            'page_obj': page_obj,
             'subtasks': supertask.subtasks.filter(supertask=supertask_pk),
         }
         trigger = {
@@ -156,3 +161,24 @@ def complete(request, task_pk):
                 'width': round(supertask.pseudo_achievement*100),
             }
     return HttpResponse(trigger=trigger)
+
+
+@login_required
+def detail_paginator(request, supertask_pk):
+    print('called')
+    page = request.GET.get('page', '1')
+    supertask = get_object_or_404(Task, pk=supertask_pk, user=request.user)
+    paginator = Paginator(supertask.subtasks.order_by('pk'), 5)
+    page_obj = paginator.get_page(page)
+    context = {
+        'page_obj': page_obj,
+        'supertask': supertask,
+    }
+    trigger = {
+        'update-paginator': {
+            'paginatorId': f'paginator-{supertask.pk}',
+            'innerHTML': loader.render_to_string('crackers/components/paginator.html', context, request)
+        }
+    }
+    return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
+    # return HttpResponse(trigger=trigger)

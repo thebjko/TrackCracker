@@ -25,4 +25,9 @@ document.addEventListener('DOMContentLoaded', (_) => {
   document.body.addEventListener('change-detail-btn', (e) => {
     document.getElementById(e.detail.btnId).outerHTML = e.detail.outerHTML
   })
+  document.body.addEventListener('update-paginator', (e) => {
+    const paginator = document.getElementById(e.detail.paginatorId)
+    paginator.innerHTML = e.detail.innerHTML
+    htmx.process(paginator)
+  })
 })
