@@ -1,4 +1,5 @@
 {% extends base_template %}
+{% load static %}
 {% load custom_filters %}
 {% block task_template %}
 <table class="table table-hover">
@@ -8,12 +9,12 @@
       <th scope="col">Task</th>
       <th scope="col">Achievement</th>
       <th scope="col">Completed</th>
-      <th scope="col">Buttons</th>
+      <th scope="col">Details</th>
     </tr>
   </thead>
   <tbody>
     {% for task in tasks %}
-    <tr>
+    <tr id="table-row-{{ task.pk }}">
       {% comment %} <th scope="row">{{ forloop.counter }}</th> {% endcomment %}
       <td>
         <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
@@ -38,13 +39,18 @@
         </div>
       </td>
       <td>
-        <a class="btn btn-success btn-sm m-1" href="{% url 'tracks:create_subtask' task.pk %}">CREATE SUBTASK</a>
+        <span id="detail-btn-for-{{ task.pk }}"
+          class="btn btn-outline-dark btn-sm"
+          hx-target="#table-row-{{ task.pk }}"
+          hx-get="{% url 'tracks:detail' task.pk %}"
+          hx-swap="afterend"
+        >자세히 보기</span>
+        {% comment %} <a class="btn btn-success btn-sm m-1" href="{% url 'tracks:create_subtask' task.pk %}">CREATE SUBTASK</a>
         <a class="btn btn-warning btn-sm m-1" href="{% url 'tracks:update' task.pk %}">UPDATE</a>
         <a class="btn btn-primary btn-sm m-1"
-          hx-target="this"
           hx-replace-url="true"
           hx-delete="{% url 'tracks:delete' task.pk %}"
-          hx-confirm="This will delete all related subtasks.">Delete</a>
+          hx-confirm="This will delete all related subtasks.">Delete</a> {% endcomment %}
       </td>
     </tr>
     {% empty %}
@@ -57,4 +63,5 @@
     {% endfor %}
   </tbody>
 </table>
+<script src="{% static 'crackers/utils.js' %}"></script>
 {% endblock task_template %}

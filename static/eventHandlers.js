@@ -22,4 +22,7 @@ document.addEventListener('DOMContentLoaded', (_) => {
     progress.setAttribute('style', `width: 100%;`)
     progress.textContent = 'Marked Complete'
   })
+  document.body.addEventListener('change-detail-btn', (e) => {
+    document.getElementById(e.detail.btnId).outerHTML = e.detail.outerHTML
+  })
 })

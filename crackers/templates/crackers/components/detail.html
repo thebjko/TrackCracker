@@ -1,26 +1,33 @@
 {% load custom_filters %}
-<div class="card">
-  <div class="card-header">
-    Description
-  </div>
-  <div class="card-body">
-    {% comment %} <h6 class="card-title">Description</h6> {% endcomment %}
-    <p class="card-text">{{ supertask.description|markdown }}</p>
-  </div>
-</div>
-<br>
-<h6>Task List</h6>
-<ul>
-  {% for task in subtasks %}
-  <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
-  {% empty %}
-  <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
-  {% endfor %}
-</ul>
-<a class="btn btn-link" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
-<a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
-<a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
-<a class="btn btn-link"
-  hx-delete="{% url 'tracks:delete' supertask.pk %}"
-  hx-target="body"
-  hx-confirm="This will delete all related subtasks.">Delete Task</a>
+<tr id="detail-row-{{ supertask.pk }}">
+  <td colspan="4">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          Description
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ supertask.description|markdown }}</p>
+        </div>
+      </div>
+      <br>
+      {# pagination #}
+      <h6>Task List</h6>
+      <ul>
+        {% for task in subtasks %}
+        <li><span class="fs-4">{{ task.title }}</span> → <span>{% widthratio task.achievement 1 100 %} % Achieved</span></li>
+        {% empty %}
+        <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
+        {% endfor %}
+      </ul>
+      <a class="btn btn-link" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
+      <a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
+      <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
+      <a class="btn btn-link"
+        hx-delete="{% url 'tracks:delete' supertask.pk %}"
+        hx-target="body"
+        hx-confirm="This will delete all related subtasks.">Delete Task</a>
+      {# tree 구조 변경하는 버튼 추가 #}
+    </div>
+  </td>
+</tr>

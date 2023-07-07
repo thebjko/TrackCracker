@@ -1,5 +1,6 @@
 from django.http import QueryDict
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_GET
@@ -74,8 +75,9 @@ def detail(request, supertask_pk):
             'subtasks': supertask.subtasks.filter(supertask=supertask_pk),
         }
         trigger = {
-            'change-offcanvas-title': {
-                'title': supertask.title
+            'change-detail-btn': {
+                'btnId': f'detail-btn-for-{supertask.pk}',
+                'outerHTML': loader.render_to_string('crackers/components/detail_btn.html', {'task': supertask}, request)
             }
         }
         return render(request, 'crackers/components/detail.html', context, trigger=trigger)
