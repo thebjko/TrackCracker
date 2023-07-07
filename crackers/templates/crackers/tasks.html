@@ -16,7 +16,9 @@
     {% for task in tasks %}
     <tr id="table-row-{{ task.pk }}">
       <td>
-        <button hx-get="{% url 'tracks:detail' task.pk %}" hx-target=".offcanvas-body" hx-swap="innerHTML" class="btn btn-link btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ task.title }}</button>
+        <div class="btn btn-sm justify-content-center">
+          {{ task.title }}
+        </div>
       </td>
       <td>
         <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">

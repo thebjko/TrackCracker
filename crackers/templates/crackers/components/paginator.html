@@ -1,7 +1,7 @@
 {% load static %}
 {% if page_obj.has_previous %}
 <li class="page-item">
-  <p class="page-link pointer" hx-get="{% url 'tracks:detail_paginator' supertask.pk %}?page={{ page_obj.previous_page_number }}">이전</p>
+  <p class="page-link pointer" hx-get="{% url 'tracks:detail_paginator' supertask.pk %}?page={{ page_obj.previous_page_number }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#subtasks-for-{{ supertask.pk }}">이전</p>
 </li>
 {% else %}
 <li class="page-item disabled">

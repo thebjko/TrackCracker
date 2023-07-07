@@ -79,13 +79,13 @@ def detail(request, supertask_pk):
             'page_obj': page_obj,
             'subtasks': supertask.subtasks.filter(supertask=supertask_pk),
         }
-        trigger = {
-            'change-detail-btn': {
-                'btnId': f'detail-btn-for-{supertask.pk}',
-                'outerHTML': loader.render_to_string('crackers/components/detail_btn.html', {'supertask': supertask}, request)
-            }
-        }
-        return render(request, 'crackers/components/detail.html', context, trigger=trigger)
+        # trigger = {
+        #     'change-detail-btn': {
+        #         'btnId': f'detail-btn-for-{supertask.pk}',
+        #         'outerHTML': loader.render_to_string('crackers/components/detail_btn.html', {'supertask': supertask}, request)
+        #     }
+        # }
+        return render(request, 'crackers/components/detail.html', context)
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('accounts:login'))
 
 
@@ -181,4 +181,3 @@ def detail_paginator(request, supertask_pk):
         }
     }
     return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
-    # return HttpResponse(trigger=trigger)
