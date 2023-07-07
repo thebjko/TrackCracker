@@ -16,9 +16,9 @@
     {% for task in tasks %}
     <tr id="table-row-{{ task.pk }}">
       <td>
-        <div class="btn btn-sm justify-content-center">
+        <a class="btn btn-sm justify-content-center" href="{% url 'tracks:tasks' task.pk %}">
           {{ task.title }}
-        </div>
+        </a>
       </td>
       <td>
         <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
