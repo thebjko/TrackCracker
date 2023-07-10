@@ -10,7 +10,7 @@ const converterBtns = document.querySelectorAll('[id^=sexagesimal-to-decimal-btn
         const mod = inputValue % 100
         if (mod >= 60) {
           flag = false
-          alert('올바른 60진수를 입력하세요.\nex. 5시간 15분 23초 → 51523')
+          alert('Enter appropriate sexagesimal number.\nex. 5 hours 15 minutes 23 seconds → 51523')
           break
         }
         convertedValue += mod * Math.pow(60, power)
@@ -20,7 +20,7 @@ const converterBtns = document.querySelectorAll('[id^=sexagesimal-to-decimal-btn
       if (flag) {
         const temp = sexagesimalInput.value
         sexagesimalInput.value = convertedValue
-        alert(`${temp}에서 ${convertedValue}로 변경되었습니다.`)
+        alert(`Converted successfully from ${temp} to ${convertedValue}.`)
       }
     })
   })
