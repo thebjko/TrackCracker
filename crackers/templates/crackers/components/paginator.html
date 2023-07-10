@@ -5,7 +5,7 @@
 </li>
 {% else %}
 <li class="page-item disabled">
-  <p class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</p>
+  <p class="page-link" tabindex="-1" aria-disabled="true" href="#">Previous</p>
 </li>
 {% endif %}
 {% for page_number in page_obj.paginator.page_range %}
@@ -25,6 +25,6 @@
 </li>
 {% else %}
 <li class="page-item disabled">
-  <p class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</p>
+  <p class="page-link" tabindex="-1" aria-disabled="true" href="#">Next</p>
 </li>
 {% endif %}
