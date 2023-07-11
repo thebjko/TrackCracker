@@ -218,7 +218,7 @@ def move(request, task_pk, target_pk):
 @login_required
 def move_objective(request, task_pk):
     if request.method == 'POST':
-        task = get_object_or_404(Task, pk=task_pk)
+        task = get_object_or_404(Task, pk=task_pk, user=request.user)
         current_supertask = task.supertask
         task.supertask = None
         task.save()
@@ -233,10 +233,31 @@ def move_objective(request, task_pk):
     context = {
         'tasks': tasks,
         'current_task': current_task,
+        'target_pk': None,
         'breadcrumb': current_task.breadcrumb(),
     }
     return render(request, 'crackers/move.html', context)
 
 
 def move_task(request, task_pk, target_pk):
-    pass
+    if request.method == 'POST':
+        task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        target = get_object_or_404(Task, pk=target_pk, user=request.user)
+        current_supertask = task.supertask
+        task.supertask = target
+        task.save()
+        current_supertask.achievement = current_supertask.assess_achievement()
+        current_supertask.save()
+        return redirect('tracks:tasks', target_pk)
+    else:
+        query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
+        tasks = Task.objects.filter(query).order_by('-pk')
+        current_task = get_object_or_404(Task, pk=task_pk)
+        supertask = get_object_or_404(Task, pk=target_pk)
+    context = {
+        'tasks': tasks,
+        'current_task': current_task,
+        'target_pk': target_pk,
+        'breadcrumb': supertask.breadcrumb(),
+    }
+    return render(request, 'crackers/move.html', context)

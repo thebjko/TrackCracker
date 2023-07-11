@@ -1,31 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Move Task</h1>
+<h1>Move Task {{ current_task.title }}</h1>
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Task</th>
     </tr>
   </thead>
   <tbody>
     {% for task in tasks %}
     <tr>
-      <td span="col">{{ task.pk }}</td>
-      <td><a href="{% url 'tracks:move' current_task.pk task.pk %}">{{ task.title }}</a></td>
+      <td><a href="{% url 'tracks:move_task' current_task.pk task.pk %}">{{ task.title }}</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td>Subtask does not exist.</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-<form action="{% url 'tracks:move' current_task.pk 0 %}" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-success">Set as an Objective</button>
-</form>
-{% if target_pk != current_task.supertask.pk %}
-<form action="{% url 'tracks:move' current_task.pk target_pk %}" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-warning">Move Here</button>
-</form>
-{% endif %}
+<div class="d-flex justify-content-end">
+  <form action="{% url 'tracks:move_objective' current_task.pk %}" method="post" class="ms-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Set as an Objective</button>
+  </form>
+  {% if target_pk %}
+  <form action="{% url 'tracks:move_task' current_task.pk target_pk %}" method="post" class="mx-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning">Move Here</button>
+  </form>
+  {% endif %}
+</div>
 {% endblock content %}
