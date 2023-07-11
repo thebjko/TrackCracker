@@ -30,8 +30,10 @@
 <a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
 {% if supertask == objective %}
 <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Objective</a>
+<a class="btn btn-link" href="{% url 'tracks:move' supertask.pk 0 %}">Move Objective</a>
 {% else %}
 <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
+<a class="btn btn-link" href="{% url 'tracks:move' supertask.pk 0 %}">Move Task</a>
 {% endif %}
 <a class="btn btn-link"
 hx-delete="{% url 'tracks:delete' supertask.pk %}"

@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_GET
 from django.core.paginator import Paginator  
+from django.db.models import Q
 
 from .forms import TaskForm
 from .models import Task
@@ -165,7 +166,6 @@ def complete(request, task_pk):
 
 @login_required
 def detail_paginator(request, supertask_pk):
-    print('called')
     page = request.GET.get('page', '1')
     supertask = get_object_or_404(Task, pk=supertask_pk, user=request.user)
     paginator = Paginator(supertask.subtasks.order_by('pk'), 5)
@@ -181,3 +181,21 @@ def detail_paginator(request, supertask_pk):
         }
     }
     return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
+
+
+@require_http_methods(['GET', 'POST'])
+def move(request, task_pk, target_pk):
+    if request.method == 'POST':
+        # 자신의 subtask가 아닌지 확인해야 한다.
+        pass
+    else:
+        if not target_pk:
+            target_pk = None
+        query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
+        tasks = Task.objects.filter(query).order_by('-pk')
+    context = {
+        'tasks': tasks,
+        'current_task': get_object_or_404(Task, pk=task_pk),
+        'target_pk': target_pk,
+    }
+    return render(request, 'crackers/move.html', context)

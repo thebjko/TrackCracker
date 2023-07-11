@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Move Task</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr>
+      <td span="col">{{ task.pk }}</td>
+      <td><a href="{% url 'tracks:move' current_task.pk task.pk %}">{{ task.title }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<form action="{% url 'tracks:move' current_task.pk 0 %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-success">Set as an Objective</button>
+</form>
+{% if target_pk != current_task.supertask.pk %}
+<form action="{% url 'tracks:move' current_task.pk target_pk %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-warning">Move Here</button>
+</form>
+{% endif %}
+{% endblock content %}
