@@ -215,6 +215,7 @@ def move(request, task_pk, target_pk):
     return render(request, 'crackers/move.html', context)
 
 
+@login_required
 def move_objective(request, task_pk):
     if request.method == 'POST':
         task = get_object_or_404(Task, pk=task_pk)
