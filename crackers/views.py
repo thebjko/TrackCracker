@@ -181,8 +181,10 @@ def detail_paginator(request, supertask_pk):
 
 @login_required
 def move_objective(request, task_pk):
+    user = request.user
+    task_query = Q(pk=task_pk, user=user)
     if request.method == 'POST':
-        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        current_task = get_object_or_404(Task, task_query)
         current_supertask = current_task.supertask
         current_task.supertask = None
         current_task.save()
@@ -193,7 +195,7 @@ def move_objective(request, task_pk):
     else:
         query = Q(supertask=None) & Q(user=request.user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
-        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        current_task = get_object_or_404(Task, task_query)
     context = {
         'tasks': tasks,
         'current_task': current_task,
@@ -203,14 +205,17 @@ def move_objective(request, task_pk):
 
 
 def move_task(request, task_pk, target_pk):
+    user = request.user
+    task_query = Q(pk=task_pk, user=user)
+    target_query = Q(pk=target_pk, user=user)
     if request.method == 'POST':
-        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
-        target = get_object_or_404(Task, pk=target_pk, user=request.user)
+        current_task = get_object_or_404(Task, task_query)
+        target = get_object_or_404(Task, target_query)
         current_supertask = current_task.supertask
         temp = target
         while temp is not None:
             if temp == current_task:
-                return HttpResponse(trigger={'give-alert': {'message': '올바른 요청이 아닙니다.'}})
+                return HttpResponse({'message': 'invalid request'})
             temp = temp.supertask
         current_task.supertask = target
         current_task.save()
@@ -221,8 +226,8 @@ def move_task(request, task_pk, target_pk):
     else:
         query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
-        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
-        supertask = get_object_or_404(Task, pk=target_pk, user=request.user)
+        current_task = get_object_or_404(Task, task_query)
+        supertask = get_object_or_404(Task, target_query)
     context = {
         'tasks': tasks,
         'current_task': current_task,
