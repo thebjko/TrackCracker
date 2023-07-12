@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_GET
 from django.core.paginator import Paginator  
+from django.db.models import Q
 
 from .forms import TaskForm
 from .models import Task
@@ -165,7 +166,6 @@ def complete(request, task_pk):
 
 @login_required
 def detail_paginator(request, supertask_pk):
-    print('called')
     page = request.GET.get('page', '1')
     supertask = get_object_or_404(Task, pk=supertask_pk, user=request.user)
     paginator = Paginator(supertask.subtasks.order_by('pk'), 5)
@@ -181,3 +181,56 @@ def detail_paginator(request, supertask_pk):
         }
     }
     return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
+
+
+@login_required
+def move_objective(request, task_pk):
+    if request.method == 'POST':
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        current_supertask = current_task.supertask
+        current_task.supertask = None
+        current_task.save()
+        if current_supertask:
+            current_supertask.achievement = current_supertask.assess_achievement()
+            current_supertask.save()
+        return redirect('tracks:index')
+    else:
+        query = Q(supertask=None) & Q(user=request.user) & ~Q(pk=task_pk)
+        tasks = Task.objects.filter(query).order_by('-pk')
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+    context = {
+        'tasks': tasks,
+        'current_task': current_task,
+        'target_pk': None,
+    }
+    return render(request, 'crackers/move.html', context)
+
+
+def move_task(request, task_pk, target_pk):
+    if request.method == 'POST':
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        target = get_object_or_404(Task, pk=target_pk, user=request.user)
+        current_supertask = current_task.supertask
+        temp = target
+        while temp is not None:
+            if temp == current_task:
+                return HttpResponse(trigger={'give-alert': {'message': '올바른 요청이 아닙니다.'}})
+            temp = temp.supertask
+        current_task.supertask = target
+        current_task.save()
+        if current_supertask is not None:
+            current_supertask.achievement = current_supertask.assess_achievement()
+            current_supertask.save()
+        return redirect('tracks:tasks', target_pk)
+    else:
+        query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
+        tasks = Task.objects.filter(query).order_by('-pk')
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        supertask = get_object_or_404(Task, pk=target_pk, user=request.user)
+    context = {
+        'tasks': tasks,
+        'current_task': current_task,
+        'target_pk': target_pk,
+        'breadcrumb': supertask.breadcrumb(),
+    }
+    return render(request, 'crackers/move.html', context)

@@ -38,21 +38,6 @@
       {% endif %}
     </div>
   </nav>
-  <section class="container">
-    {% if breadcrumb %}
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        {% for crumb in breadcrumb %}
-        {% if forloop.last %}
-        <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
-        {% else %}
-        <li class="breadcrumb-item"><a href="{% url 'tracks:tasks' crumb.pk %}">{{ crumb.title }}</a></li>
-        {% endif %}
-        {% endfor %}
-      </ol>
-    </nav>
-    {% endif %}
-  </section>
   
   <main class="container">
     {% block content %}

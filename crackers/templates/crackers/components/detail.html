@@ -35,6 +35,7 @@
       <a class="btn btn-link btn-sm" href="{% url 'tracks:tasks' supertask.pk %}">See in Table</a>
       <a class="btn btn-link btn-sm" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
       <a class="btn btn-link btn-sm" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
+      <a class="btn btn-link btn-sm" href="{% url 'tracks:move_objective' supertask.pk %}">Move Task</a>
       <a class="btn btn-link btn-sm"
         hx-delete="{% url 'tracks:delete' supertask.pk %}"
         hx-target="body"
