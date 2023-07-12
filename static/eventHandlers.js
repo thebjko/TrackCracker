@@ -27,8 +27,4 @@ document.addEventListener('DOMContentLoaded', (_) => {
     paginator.innerHTML = e.detail.innerHTML
     htmx.process(paginator)
   })
-  document.body.addEventListener('give-alert', (e) => {
-    alert(e.detail.message)
-    console.log('hello')
-  })
 })
