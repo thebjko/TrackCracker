@@ -15,4 +15,5 @@ urlpatterns = [
     path('<int:supertask_pk>/detail_paginator/', views.detail_paginator, name='detail_paginator'),
     path('<int:task_pk>/move/', views.move_objective, name='move_objective'),
     path('<int:task_pk>/move/<int:target_pk>/', views.move_task, name='move_task'),
+    path('delete-selected/', views.delete_selected, name='delete_selected')
 ]

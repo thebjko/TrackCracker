@@ -235,3 +235,14 @@ def move_task(request, task_pk, target_pk):
         'breadcrumb': supertask.breadcrumb(),
     }
     return render(request, 'crackers/move.html', context)
+
+
+def delete_selected(request):
+    data = request.POST.copy()
+    data.pop('csrfmiddlewaretoken', None)
+    tasks = Task.objects.filter(user=request.user, pk__in=data)
+    supertask = tasks.first().supertask
+    tasks.delete()
+    if supertask:
+        return redirect('tracks:tasks', supertask.pk)
+    return redirect('tracks:index')
