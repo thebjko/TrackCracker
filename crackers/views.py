@@ -179,11 +179,12 @@ def detail_paginator(request, supertask_pk):
     return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
 
 
+@require_http_methods(['GET', 'PUT'])
 @login_required
 def move_objective(request, task_pk):
     user = request.user
     task_query = Q(pk=task_pk, user=user)
-    if request.method == 'POST':
+    if request.method == 'PUT':
         current_task = get_object_or_404(Task, task_query)
         current_supertask = current_task.supertask
         current_task.supertask = None
@@ -191,7 +192,7 @@ def move_objective(request, task_pk):
         if current_supertask:
             current_supertask.achievement = current_supertask.assess_achievement()
             current_supertask.save()
-        return redirect('tracks:index')
+        return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
     else:
         query = Q(supertask=None) & Q(user=user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
@@ -204,11 +205,13 @@ def move_objective(request, task_pk):
     return render(request, 'crackers/move.html', context)
 
 
+@require_http_methods(['GET', 'PUT'])
+@login_required
 def move_task(request, task_pk, target_pk):
     user = request.user
     task_query = Q(pk=task_pk, user=user)
     target_query = Q(pk=target_pk, user=user)
-    if request.method == 'POST':
+    if request.method == 'PUT':
         current_task = get_object_or_404(Task, task_query)
         target = get_object_or_404(Task, target_query)
         current_supertask = current_task.supertask
@@ -222,7 +225,7 @@ def move_task(request, task_pk, target_pk):
         if current_supertask is not None:
             current_supertask.achievement = current_supertask.assess_achievement()
             current_supertask.save()
-        return redirect('tracks:tasks', target_pk)
+        return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': target_pk}))
     else:
         query = Q(supertask=target_pk) & Q(user=user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
@@ -238,6 +241,7 @@ def move_task(request, task_pk, target_pk):
 
 
 @require_http_methods(['DELETE'])
+@login_required
 def delete_selected(request):
     data = QueryDict(request.body).dict()
     data.pop('csrfmiddlewaretoken', None)
