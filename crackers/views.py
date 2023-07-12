@@ -183,38 +183,6 @@ def detail_paginator(request, supertask_pk):
     return render(request, 'crackers/components/subtasks.html', context, trigger=trigger)
 
 
-@require_http_methods(['GET', 'POST'])
-def move(request, task_pk, target_pk):
-    if not target_pk:
-        target_pk = None
-    current_task = get_object_or_404(Task, pk=task_pk)
-    if request.method == 'POST':
-        if target_pk:
-            target = get_object_or_404(Task, pk=target_pk)
-            temp = target
-            while temp is not None:
-                if temp.pk == task_pk:
-                    return
-                temp = temp.supertask
-            current_task.supertask = target
-            current_task.save()
-            return redirect('tracks:tasks', target_pk)
-        current_task.supertask = None
-        current_task.save()
-        return redirect('tracks:index')
-    else:
-        query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
-        tasks = Task.objects.filter(query).order_by('-pk')
-        breadcrumb = current_task.breadcrumb()
-    context = {
-        'tasks': tasks,
-        'current_task': current_task,
-        'target_pk': target_pk,
-        'breadcrumb': breadcrumb,
-    }
-    return render(request, 'crackers/move.html', context)
-
-
 @login_required
 def move_objective(request, task_pk):
     if request.method == 'POST':
@@ -240,19 +208,19 @@ def move_objective(request, task_pk):
 
 def move_task(request, task_pk, target_pk):
     if request.method == 'POST':
-        task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
         target = get_object_or_404(Task, pk=target_pk, user=request.user)
-        current_supertask = task.supertask
-        task.supertask = target
-        task.save()
+        current_supertask = current_task.supertask
+        current_task.supertask = target
+        current_task.save()
         current_supertask.achievement = current_supertask.assess_achievement()
         current_supertask.save()
         return redirect('tracks:tasks', target_pk)
     else:
         query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
-        current_task = get_object_or_404(Task, pk=task_pk)
-        supertask = get_object_or_404(Task, pk=target_pk)
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        supertask = get_object_or_404(Task, pk=target_pk, user=request.user)
     context = {
         'tasks': tasks,
         'current_task': current_task,
