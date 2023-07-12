@@ -241,8 +241,9 @@ def delete_selected(request):
     data = request.POST.copy()
     data.pop('csrfmiddlewaretoken', None)
     tasks = Task.objects.filter(user=request.user, pk__in=data)
-    supertask = tasks.first().supertask
-    tasks.delete()
-    if supertask:
-        return redirect('tracks:tasks', supertask.pk)
+    if tasks.exists():
+        supertask = tasks.first().supertask
+        tasks.delete()
+        if supertask:
+            return redirect('tracks:tasks', supertask.pk)
     return redirect('tracks:index')
