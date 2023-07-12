@@ -193,7 +193,7 @@ def move_objective(request, task_pk):
             current_supertask.save()
         return redirect('tracks:index')
     else:
-        query = Q(supertask=None) & Q(user=request.user) & ~Q(pk=task_pk)
+        query = Q(supertask=None) & Q(user=user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
         current_task = get_object_or_404(Task, task_query)
     context = {
@@ -224,7 +224,7 @@ def move_task(request, task_pk, target_pk):
             current_supertask.save()
         return redirect('tracks:tasks', target_pk)
     else:
-        query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
+        query = Q(supertask=target_pk) & Q(user=user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
         current_task = get_object_or_404(Task, task_query)
         supertask = get_object_or_404(Task, target_query)
