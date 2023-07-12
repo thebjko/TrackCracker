@@ -57,7 +57,7 @@
       </tr>
       {% empty %}
       <tr class="pointer">
-        <td colspan="4" 
+        <td colspan="5" 
         hx-get="{% if supertask %}{% url 'tracks:create_subtask' supertask.pk %}{% else %}{% url 'tracks:create' %}{% endif %}"
         hx-replace-url="true"
         hx-target="body">There's no related subtask. Create one.</td>
