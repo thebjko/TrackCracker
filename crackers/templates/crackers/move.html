@@ -33,9 +33,13 @@
     {% endfor %}
   </tbody>
 </table>
-<div class="d-flex justify-content-end">
-  {% if target_pk %}
-  <form action="{% url 'tracks:move_task' current_task.pk target_pk %}" method="post" class="mx-3">
+<div class="d-flex justify-content-between">
+  <div>
+    <a href="{% url 'tracks:tasks' current_task.pk %}" class="btn btn-link">Cancel</a>
+  </div>
+  <div class="d-flex justify-content-end">
+    {% if target_pk %}
+    <form action="{% url 'tracks:move_task' current_task.pk target_pk %}" method="post" class="mx-3">
     {% csrf_token %}
     <button type="submit" class="btn btn-link">Move Here</button>
   </form>
@@ -44,5 +48,6 @@
     {% csrf_token %}
     <button type="submit" class="btn btn-link">Set as an Objective</button>
   </form>
+</div>
 </div>
 {% endblock content %}
