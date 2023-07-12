@@ -1,7 +1,7 @@
 {% load custom_filters %}
 <tr id="detail-row-{{ supertask.pk }}">
-  <td colspan="4">
-    <div>
+  <td colspan="5">
+    <div class="mx-5">
       <div class="my-3 p-3">
         <h1>{{ supertask.title }}</h1>
       </div>
@@ -18,13 +18,11 @@
       <div class="mx-3">
         <h5>Subtasks</h5>
         <div class="justify-content-center">
-          {% comment %} <ul id="subtasks-for-{{ supertask.pk }}"> {% endcomment %}
           <table class="table table-hover">
             <tbody id="subtasks-for-{{ supertask.pk }}">
             {% include 'crackers/components/subtasks.html' %}
             </tbody>
           </table>
-          {% comment %} </ul> {% endcomment %}
         </div>
       </div>
       <nav aria-label="pagination">
