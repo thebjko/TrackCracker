@@ -37,21 +37,11 @@
       </td>
       <td>{{ task.weight }}</td>
     </tr>
-    {% if forloop.last %}
-    {% if target_pk %}
-    <tr class="pointer">
-      <td colspan="3" hx-put="{% url 'tracks:move_task' current_task.pk target_pk %}">Move Task Here.</td>
-    </tr>
-    {% else %}
-    <tr class="pointer">
-      <td colspan="3" hx-put="{% url 'tracks:move_objective' current_task.pk %}">Set as an Objective</td>
-    </tr>
-    {% endif %}
-    {% endif %}
     {% empty %}
     <tr>
       <td colspan="3">Subtask does not exist.</td>
     </tr>
+    {% endfor %}
     {% if target_pk %}
     <tr class="pointer">
       <td colspan="3" hx-put="{% url 'tracks:move_task' current_task.pk target_pk %}">Move Task Here.</td>
@@ -61,7 +51,6 @@
       <td colspan="3" hx-put="{% url 'tracks:move_objective' current_task.pk %}">Set as an Objective</td>
     </tr>
     {% endif %}
-    {% endfor %}
   </tbody>
 </table>
 <div class="d-flex justify-content-between">
