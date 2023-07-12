@@ -2,60 +2,71 @@
 {% load static %}
 {% load custom_filters %}
 {% block task_template %}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Task</th>
-      <th scope="col">Achievement</th>
-      <th scope="col">Completed</th>
-      <th scope="col">Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for task in tasks %}
-    <tr id="table-row-{{ task.pk }}">
-      <td>
-        <a class="btn btn-sm justify-content-center" href="{% url 'tracks:tasks' task.pk %}">
-          {{ task.title }}
-        </a>
-      </td>
-      <td>
-        <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-          {% widthratio task.pseudo_achievement 1 100 as width %}
-          <div id="task-progress-{{ task.pk }}" class="progress-bar bg-info text-body" style="width: {{ width }}%">
-            {% if task.marked_complete %}Marked Complete{% else %}{{ width }}% Achieved{% endif %}
+<form action="{% url 'tracks:delete_selected' %}" method="post">
+  {% csrf_token %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Select</th>
+        <th scope="col">Task</th>
+        <th scope="col">Achievement</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+      <tr id="table-row-{{ task.pk }}">
+        <td>
+          <input type="checkbox" name="{{ task.pk }}">
+        </td>
+        <td>
+          <a class="btn btn-sm justify-content-center" href="{% url 'tracks:tasks' task.pk %}">
+            {{ task.title }}
+          </a>
+        </td>
+        <td>
+          <div class="progress" role="progressbar" aria-label="task-achievement" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            {% widthratio task.pseudo_achievement 1 100 as width %}
+            <div id="task-progress-{{ task.pk }}" class="progress-bar bg-info text-body" style="width: {{ width }}%">
+              {% if task.marked_complete %}Marked Complete{% else %}{{ width }}% Achieved{% endif %}
+            </div>
           </div>
-        </div>
-      </td>
-      <td>
-        <div class="form-check d-flex justify-content-center">
-          <input
+        </td>
+        <td>
+          <div class="form-check d-flex justify-content-center">
+            <input
             hx-put="{% url 'tracks:complete' task.pk %}"
             hx-swap="none"
             hx-trigger="click"
             class="form-check-input"
             type="checkbox"
             id="flexCheckChecked" {% if task.completed %}checked{% endif %} {% if task|all_completed %}disabled{% endif %}>
-        </div>
-      </td>
-      <td>
-        <span id="detail-btn-for-{{ task.pk }}"
+          </div>
+        </td>
+        <td>
+          <span id="detail-btn-for-{{ task.pk }}"
           class="btn btn-outline-dark btn-sm"
           hx-target="#table-row-{{ task.pk }}"
           hx-get="{% url 'tracks:detail' task.pk %}"
           hx-swap="afterend"
-        >Detail</span>
-      </td>
-    </tr>
-    {% empty %}
-    <tr class="pointer">
-      <td colspan="4" 
+          >Detail</span>
+        </td>
+      </tr>
+      {% empty %}
+      <tr class="pointer">
+        <td colspan="4" 
         hx-get="{% if supertask %}{% url 'tracks:create_subtask' supertask.pk %}{% else %}{% url 'tracks:create' %}{% endif %}"
         hx-replace-url="true"
         hx-target="body">There's no related subtask. Create one.</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <caption>
+      <button type="submit" class="btn btn-link">Delete Selected</button>
+      {% comment %} <button type="submit" class="btn btn-link">Move Selected</button> {% endcomment %}
+    </caption>
+  </table>
+</form>
 <script src="{% static 'crackers/utils.js' %}"></script>
 {% endblock task_template %}
