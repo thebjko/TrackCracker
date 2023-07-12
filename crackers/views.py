@@ -97,10 +97,7 @@ def delete(request, task_pk):
     supertask = task.supertask
     task.delete()
     if supertask is not None:
-        # return redirect('tracks:tasks', supertask.pk)
         return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': supertask.pk}))
-    # return redirect('tracks:index')
-    # redirect시 trigger에 대한 코드 실행 후 페이지가 바뀐다. 어떻게 유지할까
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:index'))
 
 
@@ -133,7 +130,6 @@ def complete(request, task_pk):
         if task.subtasks.exists() and not task.subtasks.filter(completed=False).exists():
             return HTTPResponseHXRedirect(redirect_to=request.META.get('HTTP_REFERER'))
         task.completed = False
-        # task.supertask.completed = False
     else:
         task.completed = True
     task.achievement = task.assess_achievement()
