@@ -237,13 +237,14 @@ def move_task(request, task_pk, target_pk):
     return render(request, 'crackers/move.html', context)
 
 
+@require_http_methods(['DELETE'])
 def delete_selected(request):
-    data = request.POST.copy()
+    data = QueryDict(request.body).dict()
     data.pop('csrfmiddlewaretoken', None)
     tasks = Task.objects.filter(user=request.user, pk__in=data)
     if tasks.exists():
         supertask = tasks.first().supertask
         tasks.delete()
         if supertask:
-            return redirect('tracks:tasks', supertask.pk)
-    return redirect('tracks:index')
+            return HTTPResponseHXRedirect(redirect_to=reverse_lazy('tracks:tasks', kwargs={'supertask_pk': supertask.pk}))
+    return HTTPResponseHXRedirect(redirect_to=request.META.get('HTTP_REFERER'))
