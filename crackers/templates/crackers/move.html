@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'tracks:move_objective' current_task.pk %}">Top</a></li>
+    {% for crumb in breadcrumb %}
+    {% if forloop.last %}
+    <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+    {% else %}
+    <li class="breadcrumb-item"><a href="{% url 'tracks:move_task' current_task.pk crumb.pk %}">{{ crumb.title }}</a></li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+</nav>
+
 <h1>Move Task {{ current_task.title }}</h1>
 <table class="table table-hover">
   <thead>

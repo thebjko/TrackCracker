@@ -218,10 +218,10 @@ def move(request, task_pk, target_pk):
 @login_required
 def move_objective(request, task_pk):
     if request.method == 'POST':
-        task = get_object_or_404(Task, pk=task_pk, user=request.user)
-        current_supertask = task.supertask
-        task.supertask = None
-        task.save()
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
+        current_supertask = current_task.supertask
+        current_task.supertask = None
+        current_task.save()
         if current_supertask:
             current_supertask.achievement = current_supertask.assess_achievement()
             current_supertask.save()
@@ -229,12 +229,11 @@ def move_objective(request, task_pk):
     else:
         query = Q(supertask=None) & Q(user=request.user) & ~Q(pk=task_pk)
         tasks = Task.objects.filter(query).order_by('-pk')
-        current_task = get_object_or_404(Task, pk=task_pk)
+        current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
     context = {
         'tasks': tasks,
         'current_task': current_task,
         'target_pk': None,
-        'breadcrumb': current_task.breadcrumb(),
     }
     return render(request, 'crackers/move.html', context)
 
