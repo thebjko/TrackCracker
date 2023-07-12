@@ -211,10 +211,16 @@ def move_task(request, task_pk, target_pk):
         current_task = get_object_or_404(Task, pk=task_pk, user=request.user)
         target = get_object_or_404(Task, pk=target_pk, user=request.user)
         current_supertask = current_task.supertask
+        temp = target
+        while temp is not None:
+            if temp == current_task:
+                return HttpResponse(trigger={'give-alert': {'message': '올바른 요청이 아닙니다.'}})
+            temp = temp.supertask
         current_task.supertask = target
         current_task.save()
-        current_supertask.achievement = current_supertask.assess_achievement()
-        current_supertask.save()
+        if current_supertask is not None:
+            current_supertask.achievement = current_supertask.assess_achievement()
+            current_supertask.save()
         return redirect('tracks:tasks', target_pk)
     else:
         query = Q(supertask=target_pk) & Q(user=request.user) & ~Q(pk=task_pk)
