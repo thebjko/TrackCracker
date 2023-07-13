@@ -40,18 +40,22 @@ class Task(models.Model):
 
     def assess_achievement(self):
         if self.subtasks.exists():
-            subtasks = self.subtasks.order_by('proportion')
-            reference = F('proportion')
-            proportion_total = Sum('proportion', output_field=FloatField())
+            subtasks = self.subtasks
+            # subtasks = self.subtasks.order_by('proportion')
             if self.accumulative:
                 subquery = Subquery(
-                    self.subtasks.order_by('-proportion').filter(proportion__lte=OuterRef('proportion')).exclude(pk=OuterRef('pk')).annotate(
+                    self.subtasks.filter(proportion__lte=OuterRef('proportion')).exclude(pk=OuterRef('pk')).annotate(
                         greatest_among_the_lesser=Max('proportion', output_field=FloatField())
                     ).values('greatest_among_the_lesser')[:1]
                 )
-                subtasks = subtasks.annotate(greatest_among_the_lesser=subquery).annotate(adjusted_weight=F('proportion')-Coalesce('greatest_among_the_lesser', self.start, output_field=FloatField()))
+                subtasks = subtasks.annotate(greatest_among_the_lesser=subquery).annotate(
+                    adjusted_weight=F('proportion')-Coalesce('greatest_among_the_lesser', self.start, output_field=FloatField())
+                )
                 reference = F('adjusted_weight')
                 proportion_total = Max('proportion', output_field=FloatField()) - self.start
+            else:
+                reference = F('proportion')
+                proportion_total = Sum('proportion', output_field=FloatField())
             weighted_achievement_total = subtasks.annotate(
                 weighted_achievement=Case(   # pseudo_achievement
                     When(completed=True, then=reference),
