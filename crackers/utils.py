@@ -16,7 +16,7 @@ class HTTPResponseHXRedirect(HttpResponseRedirect):
         trigger = kwargs.pop('trigger', None)
         super().__init__(*args, **kwargs)
         self['HX-Redirect'] = self['Location']
-        self.headers['HX-Trigger-After-Settle'] = json.dumps(trigger)
+        # self.headers['HX-Trigger-After-Settle'] = json.dumps(trigger)
 
     status_code = 200
 

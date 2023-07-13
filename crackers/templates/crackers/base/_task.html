@@ -41,18 +41,5 @@
 <h3>Subtasks</h3>
 {% block task_template %}
 {% endblock task_template %}
-<div class="my-3">
-  <a class="btn btn-link" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
-  {% if supertask == objective %}
-  <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Objective</a>
-  <a class="btn btn-link" href="{% url 'tracks:move_objective' supertask.pk %}">Move Objective</a>
-  {% else %}
-  <a class="btn btn-link" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
-  <a class="btn btn-link" href="{% url 'tracks:move_objective' supertask.pk %}">Move Task</a>
-  {% endif %}
-  <a class="btn btn-link"
-  hx-delete="{% url 'tracks:delete' supertask.pk %}"
-  hx-confirm="This action deletes all related subtasks.">Delete Task</a>
-</div>
 {% endwith %}
 {% endblock content %}
