@@ -56,21 +56,18 @@
         </td>
       </tr>
       {% if forloop.last %}
-      {% if supertask %}
       <tr>
         <td colspan="5" style="transform: rotate(0)">
-          <a class="stretched-link text-decoration-none text-body-emphasis" href="{% url 'tracks:create_subtask' supertask.pk %}">Create subtask</a>
-        </td>
-      </tr>
-      {% else %}
-      <tr>
-        <td colspan="5">
-          <a href="{% url 'tracks:create' %}">
-            Create objective
+          <a
+          class="stretched-link text-decoration-none text-primary"
+          {% if supertask %}
+          href="{% url 'tracks:create_subtask' supertask.pk %}">Create subtask
+          {% else %}
+          href="{% url 'tracks:create' %}">Create objective
+          {% endif %}
           </a>
         </td>
       </tr>
-      {% endif %}
       {% endif %}
       {% empty %}
       <tr class="pointer">
@@ -78,7 +75,6 @@
           <a class="stretched-link text-decoration-none text-body-emphasis" href="{% if supertask %}{% url 'tracks:create_subtask' supertask.pk %}{% else %}{% url 'tracks:create' %}{% endif %}">
             There's no related subtask. Create one.
           </a>
-          {% comment %} There's no related subtask. Create one. {% endcomment %}
         </td>
       </tr>
       {% endfor %}
@@ -87,17 +83,19 @@
       <div class="d-flex justify-content-start">
         <button class="btn btn-sm btn-link" id="delete-selected">Delete Selected</button>
         {% if supertask %}
-        <a class="btn btn-link btn-sm" href="{% url 'tracks:create_subtask' supertask.pk %}">Create Subtask</a>
         {% if supertask == objective %}
         <a class="btn btn-link btn-sm" href="{% url 'tracks:update' supertask.pk %}">Update Objective</a>
         <a class="btn btn-link btn-sm" href="{% url 'tracks:move_objective' supertask.pk %}">Move Objective</a>
+        <a class="btn btn-link btn-sm"
+        hx-delete="{% url 'tracks:delete' supertask.pk %}"
+        hx-confirm="This action deletes all related subtasks.">Delete Objective</a>
         {% else %}
         <a class="btn btn-link btn-sm" href="{% url 'tracks:update' supertask.pk %}">Update Task</a>
         <a class="btn btn-link btn-sm" href="{% url 'tracks:move_objective' supertask.pk %}">Move Task</a>
-        {% endif %}
         <a class="btn btn-link btn-sm"
         hx-delete="{% url 'tracks:delete' supertask.pk %}"
         hx-confirm="This action deletes all related subtasks.">Delete Task</a>
+        {% endif %}
         {% endif %}
       </div>
     </caption>
