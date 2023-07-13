@@ -1,7 +1,11 @@
 {% load custom_filters %}
 {% for task in page_obj %}
-<tr class="row pointer" hx-get="{% url 'tracks:tasks' task.pk %}" hx-replace-url="true" hx-target="body">
-  <th scope="row" class="col-8 text-truncate">{{ task.title }}</th>
+<tr class="row" style="transform: rotate(0);">
+  <th scope="row" class="col-8 text-truncate">
+    <a class="stretched-link text-decoration-none text-body" href="{% url 'tracks:tasks' task.pk %}">
+      {{ task.title }}
+    </a>
+  </th>
   <td class="col-4">
     <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
       <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark" style="width: {% widthratio task.achievement 1 100 %}%"></div>
@@ -9,7 +13,7 @@
   </td>
 </tr>
 {% empty %}
-<tr colspan="2">
-  <p class="pointer" hx-get="{% url 'tracks:create_subtask' supertask.pk %}" hx-replace-url="true" hx-target="body">There's no related subtask. Create one.</p>
+<tr colspan="2" style="transform: rotate(0);">
+  <a class="stretched-link text-decoration-none text-body" href="{% url 'tracks:create_subtask' supertask.pk %}">There's no related subtask. Create one.</a>
 </tr>
 {% endfor %}
